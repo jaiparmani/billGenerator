@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block body_block %}
+
+<form class="" action="{% url 'SecurityForm'%}" method="post">
+
+
+      {{SecurityForm.as_p}}
+
+      {%  csrf_token %}
+      <input type="submit" name="" value="submit">
+
+</form>
+{%endblock %}

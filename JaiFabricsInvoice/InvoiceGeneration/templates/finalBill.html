@@ -1,0 +1,182 @@
+
+{% load static %}
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<link rel="stylesheet" href="{% static 'stylesheet.css'%}">
+<!-- <link rel="" href="{% static 'stylesheet.css'%}"> -->
+<script type="text/javascript" src="{% static 'javascript.js' %}">
+</script>
+
+<!------ Include the above in your HEAD tag ---------->
+
+<!--Author      : @arboshiki-->
+<div id="invoice">
+<!--
+    <div class="toolbar hidden-print">
+        <div class="text-right">
+            <button id="printInvoice" class="btn btn-info"><i class="fa fa-print"></i> Print</button>
+            <button class="btn btn-info"><i class="fa fa-file-pdf-o"></i> Export as PDF</button>
+        </div>
+        <hr>
+    </div> -->
+    <div class="invoice overflow-auto">
+        <div style="min-width: 600px">
+            <header>
+                <div class="row">
+                    <!-- <div class="col"> -->
+                        <!-- <a target="_blank" href="https://lobianijs.com"> -->
+                            <!-- <img src="http://lobianijs.com/lobiadmin/version/1.0/ajax/img/logo/lobiadmin-logo-text-64.png" data-holder-rendered="true" /> -->
+                            <!-- </a> -->
+                    <!-- </div> -->
+                    <div class="col company-details">
+                        <h2 class="name">
+                            <a>
+                              <div class="mainTitle">
+
+                                  <b>JAI FABRICS</b>
+      </div>
+                                  </a>
+                            </a>
+                        </h2>
+                        <div>1803 Neptune CHS DN NAGAR Andheri West</div>
+                        <div>Mobile Number: 9322970238</div>
+                        <div>EMAIL: ashokparmani@gmail.com</div>
+                        <div>GSTIN: 27ACCPP6615Q1Z0</div>
+
+                    </div>
+                    <div class="col invoice-details">
+                        <h1 class="invoice-id">Invoice Number: {{invoiceNumber}}</h1>
+                        <div class="date">Invoice Date: {{invoiceDate}}</div>
+
+                        <!-- <div class="date">Due Date: 30/10s/2018</div> -->
+                    </div>
+                </div>
+
+            </header>
+            <main>
+                <div class="row contacts">
+                    <div class="col invoice-to">
+                        <div class="text-gray-light">INVOICE TO:</div>
+                        <div class="custName">
+
+                        <p class="to">{{customerName}}
+                        </div>
+                      <br>GST: {{custGST}}
+                        <br>Address: {{custAddress1}}
+                    <br>{{custAddress2}}
+                    </div>
+                    <div class="col invoice-details transport">
+                        <Transport Details:
+                        <p>{{TransportName}}</p>
+                          <div class=''>{{choice}}: {{choiceInfo}}</div>
+                        <p>LR Number: {{lrno}}</p>
+                      </div>
+                </div>
+                <table border="1" cellspacing="0" cellpadding="0">
+                    <thead>
+                        <tr>
+
+                            <th class="text-left">DESCRIPTION</th>
+                                    <th>HSN CODE</th>
+                                    <th class="text-right">QUANTITY</th>
+
+                                        <th class="text-right">Price(per unit)</th>
+                            <th class="text-right">TOTAL</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                      <!-- {{finalList}} -->
+                      {% for i in finalList %}
+                      <!-- <hr> -->
+                        <tr>
+                            <td class="text-left" ><h3>
+                                <!-- <a target="_blank" href="https://www.youtube.com/channel/UC_UMEcP_kF0z4E6KbxCpV1w"> -->
+                                <!-- Youtube channel -->
+                              {{  i.0 }}
+                                </a>
+                                </h3>
+                            </td>
+
+                                                        <td>5407</td>
+                            <td class="unit">{{i.1}}</td>
+                            <td class="qty">{{i.2}}</td>
+                            <td class="total">{{i.3}}</td>
+                        </tr>
+                        {% endfor  %}
+                        <!-- <tr>
+                            <td class="no">01</td>
+                            <td class="text-left"><h3>Website Design</h3>Creating a recognizable design solution based on the company's existing visual identity</td>
+                            <td class="unit">$40.00</td>
+                          <td class="qty">30</td>
+                            <td class="total">$1,200.00</td>
+                      </tr>
+                        <tr>
+                            <td class="no">02</td>
+                            <td class="text-left"><h3>Website Development</h3>Developing a Content Management System-based Website</td>
+                            <td class="unit">$40.00</td>
+                            <td class="qty">80</td>
+                            <td class="total">$3,200.00</td>
+                        </tr>
+                        <tr>
+                            <td class="no">03</td>
+                            <td class="text-left"><h3>Search Engines Optimization</h3>Optimize the site for search engines (SEO)</td>
+                            <td class="unit">$40.00</td>
+                            <td class="qty">20</td>
+                            <td class="total">$800.00</td>
+                        </tr>
+                    </tbody>
+                  -->
+                  <!-- <hr> -->
+                    <tfoot>
+                        <tr>
+                            <td colspan="2"></td>
+                            <td colspan="2">SUBTOTAL</td>
+                            <td>{{subtotal}}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2"></td>
+                            <td colspan="2">TAX 5%({{GSTType}})</td>
+                            <td>{{tax}}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2"></td>
+                            <td colspan="2">GRAND TOTAL</td>
+                            <td>{{total}}</td>
+                        </tr>
+                    </tfoot>
+                </table>
+                <p id='value'>Value in Words: <strong>{{totalFigure}}</strong> </p>
+<p></p>
+<p></p>
+
+                 <div class="bankDetails" border='1'>
+                 <strong id='title'>Bank Details:</strong>
+                 <p></p> BANK NAME:<strong> APNA SAHAKARI BANK LTD.</strong> BRANCH:<strong></strong> ANDHERI(WEST)
+                    <p>            A/C NO: 007012100003298 IFSC CODE: ASBL0000007  </p>
+
+                  </div>
+
+                <div class="notices">
+                    <div>NOTICE:</div>
+                    <div class="notice">A finance charge of 1.5% will be made on unpaid balances after 30 days.</div>
+                </div>
+
+                <div class="signature" align="right">
+                  JAI FABRICS
+                </div>
+
+                <br>
+                <br>
+
+                <p id='auth' align="right">Authorised Signatory</p>
+                Invoice was created on a computer and is not valid without the signature.
+            </main>
+
+
+        </div>
+        <!--DO NOT DELETE THIS div. IT is responsible for showing footer always at the bottom-->
+        <div></div>
+    </div>
+</div>
