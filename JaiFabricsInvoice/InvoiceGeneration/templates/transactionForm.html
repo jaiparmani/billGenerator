@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block body_block %}
+
+CR for purchase and Dr for Sale
+<form class="" action="{% url 'addTransactions'%}" method="post">
+
+
+      {{form.as_p}}
+
+      {%  csrf_token %}
+      <input type="submit" name="" value="submit">
+
+</form>
+{%endblock %}

@@ -1,5 +1,6 @@
 
 {% load static %}
+{% load customFilter %}
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -88,54 +89,45 @@
                       <!-- <hr> -->
                         <tr>
                             <td class="text-left" ><h3>
-                                <!-- <a target="_blank" href="https://www.youtube.com/channel/UC_UMEcP_kF0z4E6KbxCpV1w"> -->
-                                <!-- Youtube channel -->
+
                               {{  i.0 }}
                                 </a>
                                 </h3>
                             </td>
-                            <td>5407</td>
+                            <td>{{HSN_CODE}}</td>
 
                             <td class="unit">{{i.1}}</td>
                             <td class="qty">{{i.2}}</td>
                             <td class="total">{{i.3}}</td>
                         </tr>
                         {% endfor  %}
-                        <!-- <tr>
-                            <td class="no">01</td>
-                            <td class="text-left"><h3>Website Design</h3>Creating a recognizable design solution based on the company's existing visual identity</td>
-                            <td class="unit">$40.00</td>
-                          <td class="qty">30</td>
-                            <td class="total">$1,200.00</td>
-                      </tr>
-                        <tr>
-                            <td class="no">02</td>
-                            <td class="text-left"><h3>Website Development</h3>Developing a Content Management System-based Website</td>
-                            <td class="unit">$40.00</td>
-                            <td class="qty">80</td>
-                            <td class="total">$3,200.00</td>
-                        </tr>
-                        <tr>
-                            <td class="no">03</td>
-                            <td class="text-left"><h3>Search Engines Optimization</h3>Optimize the site for search engines (SEO)</td>
-                            <td class="unit">$40.00</td>
-                            <td class="qty">20</td>
-                            <td class="total">$800.00</td>
-                        </tr>
-                    </tbody>
-                  -->
-                  <!-- <hr> -->
+
                     <tfoot>
                         <tr>
                             <td colspan="2"></td>
                             <td colspan="2">SUBTOTAL</td>
                             <td>{{subtotal}}</td>
                         </tr>
+                        {% if GSTType == 'IGST' %}
                         <tr>
                             <td colspan="2"></td>
-                            <td colspan="2">TAX 5%({{GSTType}})</td>
+                            <td colspan="2">TAX  {{GSTPERCENTAGE}}%(IGST)</td>
                             <td>{{tax}}</td>
                         </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="2"></td>
+                            <!--<td colspan="2">TAX 2.5%({{GSTType}})</td>-->
+                            <td colspan="2">TAX {{GSTPERCENTAGE}}%(CGST)</td>
+                            <td>{{tax|div:2}}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2"></td>
+                            <!--<td colspan="2">TAX 5%({{GSTType}})</td>-->
+                            <td colspan="2">TAX {{GSTPERCENTAGE}}%(SGST)</td>
+                            <td>{{tax|div:2}}</td>
+                        </tr>
+                        {% endif %}
                         <tr>
                             <td colspan="2"></td>
                             <td colspan="2">GRAND TOTAL</td>

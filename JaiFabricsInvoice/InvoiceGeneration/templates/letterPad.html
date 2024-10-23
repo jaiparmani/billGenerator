@@ -1,0 +1,92 @@
+
+{% load static %}
+
+{% load customFilter %}
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<link rel="stylesheet" href="{% static 'stylesheet.css'%}">
+<!-- <link rel="" href="{% static 'stylesheet.css'%}"> -->
+<script type="text/javascript" src="{% static 'javascript.js' %}">
+</script>
+
+<!------ Include the above in your HEAD tag ---------->
+
+<!--Author      : @arboshiki-->
+<div id="invoice">
+<!--
+    <div class="toolbar hidden-print">
+        <div class="text-right">
+            <button id="printInvoice" class="btn btn-info"><i class="fa fa-print"></i> Print</button>
+            <button class="btn btn-info"><i class="fa fa-file-pdf-o"></i> Export as PDF</button>
+        </div>
+        <hr>
+    </div> -->
+    <div class="invoice overflow-auto">
+        <div style="min-width: 600px">
+            <header>
+                <div class="row">
+                    <!-- <div class="col"> -->
+                        <!-- <a target="_blank" href="https://lobianijs.com"> -->
+                            <!-- <img src="http://lobianijs.com/lobiadmin/version/1.0/ajax/img/logo/lobiadmin-logo-text-64.png" data-holder-rendered="true" /> -->
+                            <!-- </a> -->
+                    <!-- </div> -->
+                    <div class="col company-details">
+                        <h2 class="name">
+                            <a>
+                              <div class="mainTitle">
+
+                                  <b>JAI FABRICS</b>
+      </div>
+                                  </a>
+                            </a>
+                        </h2>
+                        <div>1803 Neptune CHS DN NAGAR Andheri West</div>
+                        <div>Mobile Number: 9322970238</div>
+                        <div>EMAIL: ashokparmani@gmail.com</div>
+                        <div>GSTIN: 27ACCPP6615Q1Z0</div>
+
+                    </div>
+                    <div class="col invoice-details">
+                        <div class="date">Invoice Date: {{letterDate}}</div>
+
+                        <!-- <div class="date">Due Date: 30/10s/2018</div> -->
+                    </div>
+                </div>
+
+            </header>
+            <main>
+            <br>
+            <br>
+            <div class="letter" style="border: 1px solid black; font-size:25px; margin-left:20%;margin-right:20%; padding: 10px;">
+                            To {{custName}},<br>
+            {{letterBody}}
+            </div>
+            <br><br><br><br><br>
+            <br><br><br><br><br>
+            <br><br><br><br><br>
+            <br><br><br><br><br>
+            <br><br><br><br><br>
+            <br><br><br><br><br>
+            <br><br><br><br><br>
+            <br><br><br><br><br>
+
+            <br><br><br><br><br>
+            <br><br><br><br><br>
+
+                <div class="signature" align="right" style="">
+                  JAI FABRICS
+                </div>
+    `
+                <br>
+                <br>
+
+                <p id='auth' align="right">Authorised Signatory</p>
+            </main>
+
+
+        </div>
+        <!--DO NOT DELETE THIS div. IT is responsible for showing footer always at the bottom-->
+        <div></div>
+    </div>
+</div>
