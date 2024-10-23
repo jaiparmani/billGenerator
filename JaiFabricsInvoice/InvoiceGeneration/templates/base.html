@@ -1,15 +1,36 @@
 <!DOCTYPE html>
+
+{% load static %}
 <html lang="en" dir="ltr">
   <head>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+<script type="text/javascript" src="/jsi18n/"></script>
+<script type="text/javascript" src="{% static 'admin/js/core.js' %}"></script>
+<script type="text/javascript" src="{% static 'admin/js/admin/RelatedObjectLookups.js' %}"></script>
 
+<!--<link rel="stylesheet" type="text/css" href="{% static 'admin/css/forms.css' %}"/>-->
+<!--<link rel="stylesheet" type="text/css" href="{% static 'admin/css/base.css' %}"/>-->
+<link rel="stylesheet" type="text/css" href="{% static 'admin/css/widgets.css' %}"/>
+<script type="text/javascript" src="{% static 'admin/js/calendar.js' %}"></script> <script type="text/javascript" src="{% static 'admin/js/admin/DateTimeShortcuts.js' %}"></script>
+      <!-- CSS only -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+<!-- JS, Popper.js, and jQuery -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+<link rel="stylesheet" href="{% static 'stylesheet.css'%}">
+<!--https://www.pythonanywhere.com/user/jaiparmani411/files/home/jaiparmani411/billGenerator/JaiFabricsInvoice/InvoiceGeneration/templates-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <meta charset="utf-8">
     <title></title>
   </head>
   <body>
+      <!--<div class="container">-->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-      <a class="navbar-brand" href="BasePage">Jai Fabrics</a>
+      <a class="navbar-brand" href="{% url 'BasePage' %}">Jai Fabrics</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -22,16 +43,53 @@
           <li class="nav-item active">
               <a class="nav-link" href="{% url 'SecurityForm'%}">MakeBill <span class="sr-only">(current)</span></a>
             </li>
+          <li class="nav-item active">
+              <a class="nav-link" href="{% url 'AddCustomer'%}">AddCustomer <span class="sr-only">(current)</span></a>
+            </li>
+          <li class="nav-item active">
+              <a class="nav-link" href="{% url 'AddPurchase'%}">AddPurchase <span class="sr-only">(current)</span></a>
+            </li>
+             <li class="nav-item active">
+              <a class="nav-link" href="{% url 'AddSeller'%}">AddSeller <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item active">
+              <a class="nav-link" href="{% url 'generateLetter'%}">LetterPad <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item active">
+              <a class="nav-link" href="{% url 'addTransactions'%}">Add Transaction <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item active">
+              <a class="nav-link" href="{% url 'getTransactions'%}">Ledger <span class="sr-only">(current)</span></a>
+            </li>
+                        <li class="nav-item active">
+              <a class="nav-link" href="{% url 'salePartyWise'%}">SalePartyWise <span class="sr-only">(current)</span></a>
+            </li>
+            </li>
+                        <li class="nav-item active">
+              <a class="nav-link" href="{% url 'purchasePartyWise'%}">Purchase Party Wise <span class="sr-only">(current)</span></a>
+            </li>
+            </li>
+                        <li class="nav-item active">
+              <a class="nav-link" href="{% url 'saleTotal'%}">Sale Total <span class="sr-only">(current)</span></a>
+            </li>
+            </li>
+                        <li class="nav-item active">
+              <a class="nav-link" href="{% url 'purchaseTotal'%}">Purchase Total <span class="sr-only">(current)</span></a>
+            </li>
 
+    </ul>
         </div>
-    </li>
+
   </nav>
+  <!--</div>-->
+  <div class="container">
   {% block body_block %}
 
-    <div class="jumbotron">
+    <div class="jumbotron jumbotron-fluid">
       <h1>Welcome to <strong>Jai Fabrics</strong></h1>
     </div>
 
 {% endblock %}
+</div>
   </body>
 </html>

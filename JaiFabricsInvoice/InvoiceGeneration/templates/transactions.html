@@ -1,0 +1,44 @@
+
+{% load static %}
+{% block body_block %}
+<h4>{{party}} Details:</h4>
+    <table border="1">
+      <thead>
+         <th>Transaction Date</th>
+        <th>Billno/ref</th>
+        <th>CR/DR</th>
+        <th>Amount CR</th>
+        <th>Amount DR</th>
+
+    </thead>
+  <th>TOTAL</th>
+      <th></th>
+         <th></th>
+      <th>{{totalCredit}}</th>
+      <th>{{totalDebit}}</th>
+{% for i in transactions%}
+    <tr>
+
+      <td>{{i.transactionDate}}</td>
+      <td>{{i.ref}}</td>
+      <td>{{i.crdr}}</td>
+        {% if i.crdr == "CR" %}
+
+      <td>{{i.amount}}</td>
+<td></td>
+        {% else %}
+        <td></td>
+      <td>{{i.amount}}</td>
+
+
+        {% endif %}
+
+    </tr>
+    {%endfor%}
+    <tfoot>
+
+
+    </tfoot>
+
+    </table>
+  {%endblock %}

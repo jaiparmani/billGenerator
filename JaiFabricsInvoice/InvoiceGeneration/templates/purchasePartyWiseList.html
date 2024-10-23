@@ -1,0 +1,63 @@
+
+{% load static %}
+{% block body_block %}
+<h4>Purchase Details:</h4>
+    <table border="1">
+      <thead>
+         <th>Invoice Date</th>
+        <th>Seller Name</th>
+        <th>Seller GST</th>
+        <th>Invoice Number</th>
+        <th>Item Name</th>
+        <th>HSN</th>
+        <th>Quantity</th>
+        <th>PricePerUnit</th>
+        <th>OtherCharges</th>
+        <th>SubTotal</th>
+        <th>GSTType</th>
+        <th>% GST</th>
+        <!--<th>GST AMOUNT</th>-->
+        <th>IGST</th>
+        <th>SGST</th>
+        <th>CGST</th>
+        <th>Total</th>
+    </thead>
+
+{% for i in purchaseList%}
+    <tr>
+      <td>{{i.invoicedate}}</td>
+      <td>{{i.sellerName}}</td>
+      <td>{{i.sellerGST}}</td>
+
+      <td>{{i.invoiceNumber}}</td>
+      <td>{{i.itemName}}</td>
+                  <td>{{i.HSN}}</td>
+      <td>{{i.quantity}}</td>
+      <td>{{i.pricePerUnit}}</td>
+
+      <td>{{i.otherCharges}}</td>
+      <td>{{i.subTotal}}</td>
+      <td>{{i.gstType}}</td>
+        <td>{{i.gstType2}}</td>
+      <td>{{i.IGST}}</td>
+      <td>{{i.CGST}}</td>
+      <td>{{i.SGST}}</td>
+      <td>{{i.totalAmount}}</td>
+    </tr>
+    {%endfor%}
+    <tfoot>
+      <th>TOTAL</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th>Subtotal</th>
+      <th></th>
+      <th>IGSTTOtal</th>
+      <th>CGSTtotal</th>
+      <th>SGSTtotal</th>
+      <th>Totaltotal</th>
+    </tfoot>
+
+    </table>
+  {%endblock %}

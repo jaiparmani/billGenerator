@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block body_block %}
+<div align='' class="container">
+<p></p>
+<p></p>
+<h1> Please enter the Seller details!</h1>
+    <form action="{% url 'AddSeller' %}" method="post">
+
+    {{form.as_p}}
+
+    {%  csrf_token %}
+    <input href= "{% url 'AddSeller' %}" type="submit" name="" value="submit">
+    <!-- <button  type="button" name="button"></button> -->
+  </form>
+</div>
+{%endblock%}

@@ -1,12 +1,29 @@
 #invoice{
     padding: 30px;
 }
+    @media only screen and (max-width: 600px) {
 
+form input{
+            border: 2px solid black;
+
+}
+}
 .invoice {
     position: relative;
     background-color: #FFFF;
     min-height: 680px;
     padding: 15px
+}
+@media (min-width: 1200px)
+.container {
+    max-width: 1140px;}
+@media (min-width: 992px)
+.container {
+    max-width: 960px;
+}
+@media (min-width: 400px)
+.jumbotron {
+    padding: 1000px;
 }
 th{
   font-size: 25px;
@@ -22,6 +39,10 @@ table{
 
     margin-bottom: 20px;
     border-bottom: 1px solid #3989c6
+}
+jumbotron
+{
+    margin: 1000px;
 }
 footer{
   font-size: 15px;

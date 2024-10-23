@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block body_block %}
+<head>
+</head>
+<div align='' class="container">
+<p></p>
+<p></p>
+<h1>Please enter the purchase details!</h1>
+<p>Enter Date(YYYY-MM-DD):</p>
+    <form action="{% url 'AddPurchase' %}" method="post">
+
+    {{form.as_p}}
+
+    {%  csrf_token %}
+    <input href= "{% url 'AddPurchase' %}"  type="submit" name="" value="submit">
+    <!-- <button  type="button" name="button"></button> -->
+  </form>
+
+</div>
+{%endblock%}
