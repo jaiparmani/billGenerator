@@ -24,7 +24,9 @@ from django.urls import path
 urlpatterns = [
   path('jsi18n/', JavaScriptCatalog.as_view(), name='javascript-catalog'),
     url(r'saleDetailForm', views.saleDetailForm, name = 'saleDetailForm'),
+    # url(r'saleTotal', views.saleTotal.as_view(), name = 'saleTotal'),
     url(r'saleTotal', views.saleTotal.as_view(), name = 'saleTotal'),
+    
     url(r'purchaseTotal', views.purchaseTotal.as_view(), name = 'purchaseTotal'),
     url(r'AddSeller', views.AddSeller, name = 'AddSeller'),
 

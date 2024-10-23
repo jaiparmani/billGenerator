@@ -1,5 +1,11 @@
 from django.shortcuts import render
 from django.views.generic import DetailView, TemplateView, ListView
+from django.core.paginator import Paginator
+from django.db.models.functions import Cast
+
+from django.db.models import IntegerField
+
+
 # Create your views here.
 
 global HSN_CODE
@@ -316,9 +322,13 @@ def GenerateBill(request):
 
 import datetime
 class saleTotal(ListView):
+    model = SaleModel
+
     template_name = 'saleTotal.html'
     context_object_name = 'saleList'
     today = datetime.datetime.today()
+    paginate_by = 10  # Number of items per page
+
 
     # if today.month == 1:
     #     one_month_ago = today.replace(year=today.year - 1, month=12)
@@ -332,7 +342,7 @@ class saleTotal(ListView):
     #             extra_days += 1
 
 
-    queryset = SaleModel.objects.exclude(invoiceNumber__lt=fromBillNo).order_by('-invoiceNumber')
+    queryset = SaleModel.objects.exclude(invoiceNumber__lt=fromBillNo).annotate(invoiceNumber_int=Cast('invoiceNumber', IntegerField())).order_by('-invoiceNumber_int')
 from InvoiceGeneration.models import PurchaseModel
 class purchaseTotal(ListView):
     # pass
