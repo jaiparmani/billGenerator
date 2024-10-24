@@ -9,26 +9,44 @@
         <th>Bill No</th>
         <th>Date(YYYY-MM-DD)</th>
         <th>Customer</th>
+        <th>GST</th>
         <th>Item Name</th>
+        <th>HSN</th>
         <th>Quantity</th>
         <th>PricePerUnit</th>
         <th>Subtotal</th>
+        <th>GSTType</th>
+        <th>IGST</th>
+        <th>CGST</th>
+        <th>SGST</th>
         <th>Total</th>
+        <th>TransportName</th>
+        <th>TransportGST/VehicleNo</th>
+        <th>LR_NO</th>
     </thead>
 
 {% for i in saleList%}
     {% if i.invoiceDate|checkDate:"SaleModel" %}
     <tr>
-      <td><a href = "{% url 'getBill' i.pk %}">{{i.invoiceNumber}}</a></td>
+      <td><a href = "{% url 'getBill' i.pk %}">Hi</a>{{i.invoiceNumber}}</td>
       <td>{{i.invoiceDate}}</td>
       <td>{{i.custName}}</td>
+      <td>{{i.custGST}}</td>
      <td>{{i.itemName}}</td>
+     <td>{{i.HSN_CODE}}</td>
       <td>{{i.quantity}}</td>
       <td>{{i.pricePerUnit}}</td>
       <td>{{i.subtotal}}</td>
+      <td>{{i.gstType}}</td>
+      <td>{{i.IGST}}</td>
+      <td>{{i.CGST}}</td>
+      <td>{{i.SGST}}</td>
       <td>{{i.total}}</td>
+      <td>{{i.transportName}}</td>
+      <td>{{i.transportGSTOrVehicleNumber}}</td>
+      <td>{{i.LR_NO}}</td>
 
-            <td><a href="{% url 'getActions' i.pk %}">MODIFY{{bill.pk}}</a></td>
+            <td><a href="{% url 'getActions' i.pk %}">HELLO{{bill.pk}}</a></td>
 
     </tr>
     {% else %}
@@ -37,26 +55,56 @@
       <td></td>
       <td></td>
      <td></td>
+     <td></td>
+      <td></td>
       <td></td>
       <td>{{i.invoiceDate|giveOneMoreArgument:"subtotal"|giveSummary:"SaleModel"}}</td>
+      <td></td>
+      <td>{{i.invoiceDate|giveOneMoreArgument:"IGST"|giveSummary:"SaleModel"}}</td>
+      <td>{{i.invoiceDate|giveOneMoreArgument:"CGST"|giveSummary:"SaleModel"}}</td>
+      <td>{{i.invoiceDate|giveOneMoreArgument:"SGST"|giveSummary:"SaleModel"}}</td>
       <td>{{i.invoiceDate|giveOneMoreArgument:"total"|giveSummary:"SaleModel"}}</td>
+      <td></td>
+      <td></td>
+      <td></td>
      <tr>
-               <td><a href = "{% url 'getBill' i.pk %}">{{i.invoiceNumber}}</a></td>
+               <td><a href = "{% url 'getBill' i.pk %}">Hi</a>{{i.invoiceNumber}}</td>
 
       <!--<td>{{i.invoiceNumber}}</td>-->
       <td>{{i.invoiceDate}}</td>
       <td>{{i.custName}}</td>
+      <td>{{i.custGST}}</td>
      <td>{{i.itemName}}</td>
+     <td>{{i.HSN_CODE}}</td>
       <td>{{i.quantity}}</td>
       <td>{{i.pricePerUnit}}</td>
       <td>{{i.subtotal}}</td>
+      <td>{{i.gstType}}</td>
+      <td>{{i.IGST}}</td>
+      <td>{{i.CGST}}</td>
+      <td>{{i.SGST}}</td>
       <td>{{i.total}}</td>
+      <td>{{i.transportName}}</td>
+      <td>{{i.transportGSTOrVehicleNumber}}</td>
+      <td>{{i.LR_NO}}</td>
     </tr>
     <tr>
 
     {% endif %}
     {%endfor%}
-   
+    <tfoot>
+      <th>TOTAL</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th>Subtotal</th>
+      <th></th>
+      <th>IGSTTOtal</th>
+      <th>CGSTtotal</th>
+      <th>SGSTtotal</th>
+      <th>Totaltotal</th>
+    </tfoot>
 
     </table>
 

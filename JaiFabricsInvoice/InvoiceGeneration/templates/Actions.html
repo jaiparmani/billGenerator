@@ -54,50 +54,94 @@
 <h4>Sale Details:</h4>
     <table border="1">
       <thead>
-        <th>Bill No</th>
-        <th>Date(YYYY-MM-DD)</th>
-        <th>Customer</th>
-        <th>GST</th>
-        <th>Item Name</th>
-        <th>HSN</th>
-        <th>Quantity</th>
-        <th>PricePerUnit</th>
-        <th>Subtotal</th>
-        <th>GSTType</th>
-        <th>IGST</th>
-        <th>CGST</th>
-        <th>SGST</th>
-        <th>Total</th>
-        <th>TransportName</th>
-        <th>TransportGST/VehicleNo</th>
-        <th>LR_NO</th>
+ 
     </thead>
+
+
+
     <tr>
+            <td>Bill No</td>
       <td>{{bill.invoiceNumber}}</td>
-      <td>{{bill.invoiceDate}}</td>
-      <td>{{bill.custName}}</td>
-      <td>{{bill.custGST}}</td>
-     <td>{{bill.itemName}}</td>
-     <td>{{bill.HSN_CODE}}</td>
-      <td>{{bill.quantity}}</td>
-      <td>{{bill.pricePerUnit}}</td>
-      <td>{{bill.subtotal}}</td>
-      <td>{{bill.gstType}}</td>
-      <td>{{bill.IGST}}</td>
-      <td>{{bill.CGST}}</td>
-      <td>{{bill.SGST}}</td>
-      <td>{{bill.total}}</td>
-      <td>{{bill.transportName}}</td>
-      <td>{{bill.transportGSTOrVehicleNumber}}</td>
-      <td>{{bill.LR_NO}}</td>
     </tr>
+    <tr>
+    <td>Date(YYYY-MM-DD)</td>
+    <td>{{bill.invoiceDate}}</td>
+    </tr>
+
+      
+<tr>
+     <td>Customer</td>
+
+    <td>{{bill.custName}}</td>
+</tr>
+<tr>
+        <td>GST</td>
+
+      <td>{{bill.custGST}}</td>
+</tr>
+<tr>
+        <td>Item Name</td>
+     <td>{{bill.itemName}}</td>
+</tr>
+<tr>
+        <td>HSN</td>
+     <td>{{bill.HSN_CODE}}</td>
+</tr>
+<tr>
+        <td>Quantity</td>
+      <td>{{bill.quantity}}</td>
+</tr>
+<tr>
+        <td>PricePerUnit</td>
+      <td>{{bill.pricePerUnit}}</td>
+</tr>
+<tr>
+        <td>Subtotal</td>
+      <td>{{bill.subtotal}}</td>
+</tr>
+<tr>
+        <td>GSTType</td>
+      <td>{{bill.gstType}}</td>
+</tr>
+<tr>
+       <td>IGST</td>
+        <td>{{bill.IGST}}</td>
+</tr>
+<tr>
+     <td>CGST</td>
+        <td>{{bill.CGST}}</td>
+</tr>
+<tr>
+      <td>SGST</td>
+         <td>{{bill.SGST}}</td>
+</tr>
+<tr>
+     <td>Total</td>
+          <td>{{bill.total}}</td>
+</tr>
+<tr>
+     <td>TransportName</td>
+       <td>{{bill.transportName}}</td>
+</tr>
+<tr>
+      <td>TransportGST/VehicleNo</td>
+         <td>{{bill.transportGSTOrVehicleNumber}}</td>
+</tr>
+<tr>
+     <td>LR_NO</td>  <td>{{bill.LR_NO}}</td>
+</tr>
+<tr>
+      <tr>
+        <td><a href = "{% url 'updateBill' bill.id %} "><button class="btn btn-info">    <a href = "{% url 'updateBill' bill.id %} ">Update</a>
+</button></a></td>
+   <td> <a href = "{% url 'deleteBill' bill.id %} "><button class="btn btn-danger"> <a href = "{% url 'deleteBill' bill.id %} ">Delete</a></button></a></td>
+      </tr>
 </table>
 {%endif%}
-    <a href = "{% url 'updateBill' bill.id %} ">Update</a>
-    <a href = "{% url 'deleteBill' bill.id %} ">Delete</a>
+   
 
+   
     {%  csrf_token %}
-    <input type="submit" name="" value="submit">
 
   </form>
 </div>
