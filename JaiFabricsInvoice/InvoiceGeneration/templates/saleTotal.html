@@ -23,7 +23,7 @@
 {% for i in saleList%}
     {% if i.invoiceDate|checkDate:"SaleModel" %}
     <tr>
-      <td><button class="btn btn-light"><a href = "{% url 'getBill' i.pk %}">{{i.invoiceNumber}}</a></button></td>
+      <td><a href = "{% url 'getBill' i.pk %}">{{i.invoiceNumber}}</a></td>
       <td>{{i.invoiceDate}}</td>
       <td>{{i.custName}}</td>
      <td>{{i.itemName}}</td>
