@@ -1,12 +1,16 @@
+{% comment %} {% extends 'base.html' %} {% endcomment %}
 
 {% load static %}
 {% load customFilter %}
+
 
 {% block body_block %}
 
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <h4>Sale Details:</h4>
     <table class="table table-striped table-hover">
       <thead>
@@ -69,22 +73,25 @@
 
       <!-- Pagination Controls -->
 
+ 
+</nav>
   <div class="pagination">
-    <span class="step-links">
+     <nav aria-label="Page navigation example">
+      <ul class="pagination">
+    
       {% if page_obj.has_previous %}
-        <a href="?page=1">&laquo; first</a>
-        <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+    <li class="page-item">    <a class="page-link"class="page-link" href="?page=1">&laquo; first</a></li>
+       <li class="page-item">   <a class="page-link" href="?page={{ page_obj.previous_page_number }}">previous</a></li>
       {% endif %}
 
-      <span class="current">
-        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-      </span>
+     
 
       {% if page_obj.has_next %}
-        <a href="?page={{ page_obj.next_page_number }}">next</a>
-        <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+       <li class="page-item">   <a class="page-link" href="?page={{ page_obj.next_page_number }}">next</a></li>
+       <li class="page-item">   <a  class="page-link" href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a></li>
       {% endif %}
-    </span>
+     </ul>
+    </nav>
   </div>
 
 
