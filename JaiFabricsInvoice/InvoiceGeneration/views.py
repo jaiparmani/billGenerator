@@ -526,9 +526,10 @@ def salePartyWise(request):
     if request.method=="POST":
         form = salePartyWiseForm(request.POST)
         if form.is_valid():
+            custName = str(form.cleaned_data['custName']).split(":")[0]
             bills=SaleModel.objects.all().filter(custGST=str(form.cleaned_data['custName']).split(":")[1]).order_by("-invoiceNumber")
             # return HttpResponse(bills)
-            return render(request, "salePartyWiseList.html", {"saleList":bills})
+            return render(request, "saleTotal.html", {"saleList":bills, "custName": custName })
 
     else:
         form=salePartyWiseForm
