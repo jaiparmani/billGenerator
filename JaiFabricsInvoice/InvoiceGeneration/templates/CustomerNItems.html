@@ -4,8 +4,10 @@
 <p></p>
 <p></p>
     <form action="{% url 'Form' %}" method="post">
+     <table>
+    {{CustForm.as_table}}
 
-    {{CustForm.as_p}}
+      </table>
 
     {%  csrf_token %}
     <input href= "{% url 'Form' %}" type="submit" name="" value="submit">
