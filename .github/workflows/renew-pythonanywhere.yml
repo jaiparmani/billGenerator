@@ -1,9 +1,9 @@
 name: Renew PythonAnywhere
 
 on:
+  workflow_dispatch:
   schedule:
     - cron: "0 10 25 * *"
-  workflow_dispatch:
 
 jobs:
   renew:
@@ -17,10 +17,10 @@ jobs:
           node-version: 20
 
       - run: npm install playwright
+      - run: npx playwright install --with-deps chromium
 
-      - run: npx playwright install chromium
-
-      - run: node renew.js
+      - name: Renew PythonAnywhere
+        run: node renew.js
         env:
           PA_USERNAME: ${{ secrets.PA_USERNAME }}
           PA_PASSWORD: ${{ secrets.PA_PASSWORD }}
