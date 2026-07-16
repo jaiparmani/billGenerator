@@ -32,7 +32,7 @@ const { chromium } = require("playwright");
     );
 
     // Click the renewal button
-    await page.getByDisplayValue("Run until 1 month from today").click();
+    await page.locator('input[value="Run until 1 month from today"]').click();
 
     console.log("✅ Website renewed successfully");
   } catch (err) {
