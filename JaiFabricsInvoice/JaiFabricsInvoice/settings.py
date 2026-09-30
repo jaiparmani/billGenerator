@@ -17,6 +17,33 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEMPLATE_DIR = os.path.join(BASE_DIR, "InvoiceGeneration")
 TEMPLATE_DIR = os.path.join(TEMPLATE_DIR, "templates")
 
+LOGS_DIR = os.path.join(BASE_DIR, "logs")
+os.makedirs(LOGS_DIR, exist_ok=True)
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "verbose": {"format": "%(asctime)s %(levelname)s %(message)s"},
+    },
+    "handlers": {
+        "backup_file": {
+            "class": "logging.handlers.RotatingFileHandler",
+            "filename": os.path.join(LOGS_DIR, "backup.log"),
+            "maxBytes": 1024 * 1024,
+            "backupCount": 3,
+            "formatter": "verbose",
+        },
+    },
+    "loggers": {
+        "InvoiceGeneration.backup": {
+            "handlers": ["backup_file"],
+            "level": "INFO",
+            "propagate": False,
+        },
+    },
+}
+
 
 
 
