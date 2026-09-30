@@ -2,6 +2,10 @@ from django.shortcuts import render
 from django.views.generic import DetailView, TemplateView, ListView
 from django.core.paginator import Paginator
 from django.db.models.functions import Cast
+from django.conf import settings
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
 
 from django.db.models import IntegerField
 
@@ -893,3 +897,19 @@ def getSaleBill(request, pk):
 
 
 
+
+
+@csrf_exempt
+@require_POST
+def triggerBackup(request):
+    token = (
+        request.POST.get("token")
+        or request.GET.get("token")
+        or request.headers.get("X-Backup-Token")
+    )
+    if token != settings.BACKUP_TRIGGER_TOKEN:
+        return JsonResponse({"error": "invalid token"}, status=403)
+
+    from InvoiceGeneration import backup
+    result = backup.run_daily_backup()
+    return JsonResponse(result)
