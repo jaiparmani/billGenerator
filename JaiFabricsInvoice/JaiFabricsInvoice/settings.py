@@ -59,6 +59,10 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['jaiparmani411.pythonanywhere.com','127.0.0.1']
 
+# Shared secret required by the /api/trigger-backup/ endpoint.
+# Override with a real value via the BACKUP_TRIGGER_TOKEN env var in production.
+BACKUP_TRIGGER_TOKEN = os.environ.get("BACKUP_TRIGGER_TOKEN", "change-me")
+
 
 # Application definition
 

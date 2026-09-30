@@ -56,6 +56,8 @@ url(r'SecurityForm', views.SecurityForm, name = 'SecurityForm'),
         path("deleteBill/<str:pk>/", views.SaleDeleteView.as_view(), name="deleteBill"),
  path("getSaleBill/<str:pk>/", views.getSaleBill, name="getBill"),
 
+    path("api/trigger-backup/", views.triggerBackup, name="triggerBackup"),
+
     # url("updateSale", views.getTransactions, name="getTransactions"),
 
 ]
