@@ -16,8 +16,9 @@ def _run_git(*args):
         ["git", *args],
         cwd=REPO_ROOT,
         check=True,
-        capture_output=True,
-        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        universal_newlines=True,
     )
 
 
@@ -64,5 +65,8 @@ def run_daily_backup():
             exc.cmd, exc.stdout, exc.stderr,
         )
         result["message"] = f"git {' '.join(exc.cmd[1:])} failed: {exc.stderr}"
+    except Exception as exc:
+        logger.exception("Daily backup: unexpected error during git step")
+        result["message"] = f"unexpected error: {exc}"
 
     return result
