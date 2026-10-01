@@ -177,7 +177,19 @@ document.getElementById('exportPdfBtn').addEventListener('click', function () {
 
     var target = document.querySelector('.invoice');
 
-    html2canvas(target, { scale: 2, useCORS: true }).then(function (canvas) {
+    // .invoice has Bootstrap's overflow-auto class, and its content can be
+    // wider than the visible box (it has a min-width:600px inner wrapper).
+    // Without an explicit width/height, html2canvas only captures what's
+    // in the visible/scrolled viewport and clips the rest - force it to
+    // capture the full scrollable content instead.
+    html2canvas(target, {
+        scale: 2,
+        useCORS: true,
+        width: target.scrollWidth,
+        height: target.scrollHeight,
+        windowWidth: target.scrollWidth,
+        windowHeight: target.scrollHeight
+    }).then(function (canvas) {
         // JPEG instead of PNG: this is a plain white invoice, so the lossy
         // compression is visually invisible but cuts the PDF from ~18MB to
         // under 1MB - matters since these get emailed to customers.
