@@ -41,35 +41,30 @@ AUTH_TEXT = 'Invoice was created on a computer and is not valid without the sign
 
 
 def _styles():
-    # Font sizes are the original invoice.css px values converted to points
-    # (1px = 0.75pt) - the on-screen/printed invoice deliberately uses large
-    # type (20-35px), and the first version of this PDF used ordinary
-    # document-sized text instead, which is why it read as noticeably
-    # plainer than the HTML version it's meant to match.
     return {
-        'name': ParagraphStyle('name', fontName='Helvetica-Bold', fontSize=26, textColor=INK, leading=30),
-        'body': ParagraphStyle('body', fontName='Helvetica', fontSize=15, textColor=INK, leading=19),
-        'label': ParagraphStyle('label', fontName='Helvetica', fontSize=12, textColor=MUTED, leading=15),
-        'value_lg': ParagraphStyle('value_lg', fontName='Helvetica-Bold', fontSize=19, textColor=INK, leading=23),
-        'invoice_id': ParagraphStyle('invoice_id', fontName='Helvetica-Bold', fontSize=15, textColor=BRAND_BLUE, leading=18, alignment=2),
-        'right_body': ParagraphStyle('right_body', fontName='Helvetica', fontSize=15, textColor=INK, leading=19, alignment=2),
-        'right_label': ParagraphStyle('right_label', fontName='Helvetica-Bold', fontSize=13, textColor=INK, leading=17, alignment=2),
-        'th': ParagraphStyle('th', fontName='Helvetica-Bold', fontSize=12, textColor=INK),
-        'th_right': ParagraphStyle('th_right', fontName='Helvetica-Bold', fontSize=12, textColor=INK, alignment=2),
-        'td': ParagraphStyle('td', fontName='Helvetica', fontSize=18, textColor=BRAND_BLUE, leading=21),
-        'td_right': ParagraphStyle('td_right', fontName='Helvetica', fontSize=15, textColor=INK, alignment=2, leading=18),
-        'foot_label': ParagraphStyle('foot_label', fontName='Helvetica', fontSize=18, textColor=INK, alignment=2),
-        'foot_value': ParagraphStyle('foot_value', fontName='Helvetica', fontSize=18, textColor=INK, alignment=2),
-        'grand_label': ParagraphStyle('grand_label', fontName='Helvetica-Bold', fontSize=19, textColor=BRAND_BLUE, alignment=2),
-        'grand_value': ParagraphStyle('grand_value', fontName='Helvetica-Bold', fontSize=19, textColor=BRAND_BLUE, alignment=2),
-        'words': ParagraphStyle('words', fontName='Helvetica', fontSize=15, textColor=INK, leading=19),
-        'bank_title': ParagraphStyle('bank_title', fontName='Helvetica-Bold', fontSize=16, textColor=INK, alignment=1),
-        'bank_body': ParagraphStyle('bank_body', fontName='Helvetica', fontSize=15, textColor=INK, alignment=1, leading=19),
-        'notice_title': ParagraphStyle('notice_title', fontName='Helvetica-Bold', fontSize=13, textColor=INK),
-        'notice_body': ParagraphStyle('notice_body', fontName='Helvetica', fontSize=13, textColor=INK),
-        'signature': ParagraphStyle('signature', fontName='Helvetica-Bold', fontSize=22, textColor=BRAND_BLUE, alignment=2),
-        'auth': ParagraphStyle('auth', fontName='Helvetica', fontSize=12, textColor=INK, alignment=2),
-        'small_center': ParagraphStyle('small_center', fontName='Helvetica', fontSize=9, textColor=MUTED, alignment=1),
+        'name': ParagraphStyle('name', fontName='Helvetica-Bold', fontSize=18, textColor=INK, leading=22),
+        'body': ParagraphStyle('body', fontName='Helvetica', fontSize=10, textColor=INK, leading=14),
+        'label': ParagraphStyle('label', fontName='Helvetica', fontSize=9, textColor=MUTED, leading=12),
+        'value_lg': ParagraphStyle('value_lg', fontName='Helvetica-Bold', fontSize=13, textColor=INK, leading=16),
+        'invoice_id': ParagraphStyle('invoice_id', fontName='Helvetica-Bold', fontSize=12, textColor=BRAND_BLUE, leading=15, alignment=2),
+        'right_body': ParagraphStyle('right_body', fontName='Helvetica', fontSize=10, textColor=INK, leading=14, alignment=2),
+        'right_label': ParagraphStyle('right_label', fontName='Helvetica-Bold', fontSize=10, textColor=INK, leading=14, alignment=2),
+        'th': ParagraphStyle('th', fontName='Helvetica-Bold', fontSize=9, textColor=INK),
+        'th_right': ParagraphStyle('th_right', fontName='Helvetica-Bold', fontSize=9, textColor=INK, alignment=2),
+        'td': ParagraphStyle('td', fontName='Helvetica', fontSize=10, textColor=BRAND_BLUE),
+        'td_right': ParagraphStyle('td_right', fontName='Helvetica', fontSize=10, textColor=INK, alignment=2),
+        'foot_label': ParagraphStyle('foot_label', fontName='Helvetica', fontSize=10, textColor=INK, alignment=2),
+        'foot_value': ParagraphStyle('foot_value', fontName='Helvetica', fontSize=10, textColor=INK, alignment=2),
+        'grand_label': ParagraphStyle('grand_label', fontName='Helvetica-Bold', fontSize=11, textColor=BRAND_BLUE, alignment=2),
+        'grand_value': ParagraphStyle('grand_value', fontName='Helvetica-Bold', fontSize=11, textColor=BRAND_BLUE, alignment=2),
+        'words': ParagraphStyle('words', fontName='Helvetica', fontSize=10, textColor=INK, leading=14),
+        'bank_title': ParagraphStyle('bank_title', fontName='Helvetica-Bold', fontSize=10, textColor=INK, alignment=1),
+        'bank_body': ParagraphStyle('bank_body', fontName='Helvetica', fontSize=10, textColor=INK, alignment=1, leading=14),
+        'notice_title': ParagraphStyle('notice_title', fontName='Helvetica-Bold', fontSize=9, textColor=INK),
+        'notice_body': ParagraphStyle('notice_body', fontName='Helvetica', fontSize=9, textColor=INK),
+        'signature': ParagraphStyle('signature', fontName='Helvetica-Bold', fontSize=13, textColor=BRAND_BLUE, alignment=2),
+        'auth': ParagraphStyle('auth', fontName='Helvetica', fontSize=9, textColor=INK, alignment=2),
+        'small_center': ParagraphStyle('small_center', fontName='Helvetica', fontSize=8, textColor=MUTED, alignment=1),
     }
 
 
@@ -79,8 +74,8 @@ def build_invoice_pdf(context):
     buf = BytesIO()
     doc = SimpleDocTemplate(
         buf, pagesize=A4,
-        leftMargin=15 * mm, rightMargin=15 * mm,
-        topMargin=12 * mm, bottomMargin=12 * mm,
+        leftMargin=18 * mm, rightMargin=18 * mm,
+        topMargin=16 * mm, bottomMargin=16 * mm,
     )
     content_width = doc.width
     story = []
@@ -108,9 +103,9 @@ def build_invoice_pdf(context):
         ('RIGHTPADDING', (0, 0), (-1, -1), 0),
     ]))
     story.append(header_table)
-    story.append(Spacer(1, 6))
-    story.append(HRFlowable(width='100%', thickness=1, color=BRAND_BLUE))
     story.append(Spacer(1, 8))
+    story.append(HRFlowable(width='100%', thickness=1, color=BRAND_BLUE))
+    story.append(Spacer(1, 12))
 
     # ---- Invoice To (left) / Transport Details (right) ----
     invoice_to_block = [
@@ -138,7 +133,7 @@ def build_invoice_pdf(context):
         ('RIGHTPADDING', (0, 0), (-1, -1), 0),
     ]))
     story.append(contacts_table)
-    story.append(Spacer(1, 10))
+    story.append(Spacer(1, 16))
 
     # ---- Item table ----
     item = context['finalList'][0]
@@ -186,18 +181,16 @@ def build_invoice_pdf(context):
     ]
     rows.append(grand_total_row)
 
-    # TOTAL needs more room than the others: it carries bold 21pt grand-total
-    # amounts that can run to 6+ digits (e.g. "108713.6") and must not wrap.
     col_widths = [
-        content_width * 0.22, content_width * 0.13,
-        content_width * 0.15, content_width * 0.20, content_width * 0.30,
+        content_width * 0.26, content_width * 0.16,
+        content_width * 0.18, content_width * 0.20, content_width * 0.20,
     ]
     item_table = Table(rows, colWidths=col_widths, repeatRows=1)
     n_foot_rows = len(rows) - 2  # exclude header + item row
     style = [
         ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
-        ('BOTTOMPADDING', (0, 0), (-1, -1), 5),
-        ('TOPPADDING', (0, 0), (-1, -1), 5),
+        ('BOTTOMPADDING', (0, 0), (-1, -1), 8),
+        ('TOPPADDING', (0, 0), (-1, -1), 8),
         ('LINEBELOW', (0, 0), (-1, 0), 1, colors.HexColor('#dddddd')),
         ('LINEBELOW', (0, 1), (-1, 1), 1, colors.HexColor('#dddddd')),
         ('SPAN', (2, 2), (3, 2)),
@@ -208,13 +201,13 @@ def build_invoice_pdf(context):
     style.append(('SPAN', (2, len(rows) - 1), (3, len(rows) - 1)))
     item_table.setStyle(TableStyle(style))
     story.append(item_table)
-    story.append(Spacer(1, 8))
+    story.append(Spacer(1, 14))
 
     # ---- Value in words ----
     story.append(Paragraph(
         'Value in Words: <b>{}</b>'.format(context['totalFigure']), styles['words']
     ))
-    story.append(Spacer(1, 8))
+    story.append(Spacer(1, 14))
 
     # ---- Bank details box ----
     bank_table = Table([
@@ -228,11 +221,11 @@ def build_invoice_pdf(context):
     ], colWidths=[content_width])
     bank_table.setStyle(TableStyle([
         ('BOX', (0, 0), (-1, -1), 1, colors.black),
-        ('TOPPADDING', (0, 0), (-1, -1), 6),
-        ('BOTTOMPADDING', (0, 0), (-1, -1), 6),
+        ('TOPPADDING', (0, 0), (-1, -1), 8),
+        ('BOTTOMPADDING', (0, 0), (-1, -1), 8),
     ]))
     story.append(bank_table)
-    story.append(Spacer(1, 8))
+    story.append(Spacer(1, 12))
 
     # ---- Notice ----
     notice_table = Table([[
@@ -243,13 +236,13 @@ def build_invoice_pdf(context):
         ('LEFTPADDING', (0, 0), (-1, -1), 8),
     ]))
     story.append(notice_table)
-    story.append(Spacer(1, 12))
+    story.append(Spacer(1, 20))
 
     # ---- Signature ----
     story.append(Paragraph(COMPANY_NAME, styles['signature']))
-    story.append(Spacer(1, 14))
+    story.append(Spacer(1, 24))
     story.append(Paragraph('Authorised Signatory', styles['auth']))
-    story.append(Spacer(1, 6))
+    story.append(Spacer(1, 10))
     story.append(Paragraph(AUTH_TEXT, styles['small_center']))
 
     doc.build(story)
