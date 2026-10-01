@@ -185,21 +185,20 @@ document.getElementById('exportPdfBtn').addEventListener('click', function () {
         var pdf = new window.jspdf.jsPDF('p', 'mm', 'a4');
         var pageWidth = pdf.internal.pageSize.getWidth();
         var pageHeight = pdf.internal.pageSize.getHeight();
-        var imgWidth = pageWidth;
-        var imgHeight = (canvas.height * imgWidth) / canvas.width;
-        var heightLeft = imgHeight;
-        var position = 0;
 
-        pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
-        heightLeft -= pageHeight;
+        // Every invoice here is one sale = one line item, so it's always
+        // short. Scale the whole thing to fit a single page instead of
+        // slicing it across pages - simpler, and avoids a row getting cut
+        // in half at a page boundary.
+        var margin = 10;
+        var maxWidth = pageWidth - margin * 2;
+        var maxHeight = pageHeight - margin * 2;
+        var ratio = Math.min(maxWidth / canvas.width, maxHeight / canvas.height);
+        var imgWidth = canvas.width * ratio;
+        var imgHeight = canvas.height * ratio;
+        var x = (pageWidth - imgWidth) / 2;
 
-        while (heightLeft > 0) {
-            position = heightLeft - imgHeight;
-            pdf.addPage();
-            pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
-            heightLeft -= pageHeight;
-        }
-
+        pdf.addImage(imgData, 'JPEG', x, margin, imgWidth, imgHeight);
         pdf.save('Invoice-{{ invoiceNumber }}.pdf');
     }).catch(function (err) {
         console.error('PDF export failed', err);
