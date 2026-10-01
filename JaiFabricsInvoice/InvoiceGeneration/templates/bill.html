@@ -4,6 +4,8 @@
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <link rel="stylesheet" href="{% static 'invoice.css'%}">
 <!-- <link rel="" href="{% static 'stylesheet.css'%}"> -->
 <!-- <script type="text/javascript" src="{% static 'javascript.js' %}">
@@ -17,7 +19,7 @@
     <div class="toolbar hidden-print">
         <div class="text-right">
              <a href="{% url 'finalBill' %}"><button id="printInvoice" class="btn btn-info"> Print</button></a>
-            <button class="btn btn-info"><i class="fa fa-file-pdf-o"></i> Export as PDF</button>
+            <button type="button" id="exportPdfBtn" class="btn btn-info"><i class="fa fa-file-pdf-o"></i> Export as PDF</button>
         </div>
         <hr>
     </div>
@@ -165,3 +167,46 @@
         <div></div>
     </div>
 </div>
+
+<script>
+document.getElementById('exportPdfBtn').addEventListener('click', function () {
+    var btn = this;
+    var originalText = btn.innerHTML;
+    btn.disabled = true;
+    btn.innerHTML = 'Generating…';
+
+    var target = document.querySelector('.invoice');
+
+    html2canvas(target, { scale: 2, useCORS: true }).then(function (canvas) {
+        // JPEG instead of PNG: this is a plain white invoice, so the lossy
+        // compression is visually invisible but cuts the PDF from ~18MB to
+        // under 1MB - matters since these get emailed to customers.
+        var imgData = canvas.toDataURL('image/jpeg', 0.92);
+        var pdf = new window.jspdf.jsPDF('p', 'mm', 'a4');
+        var pageWidth = pdf.internal.pageSize.getWidth();
+        var pageHeight = pdf.internal.pageSize.getHeight();
+        var imgWidth = pageWidth;
+        var imgHeight = (canvas.height * imgWidth) / canvas.width;
+        var heightLeft = imgHeight;
+        var position = 0;
+
+        pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
+        heightLeft -= pageHeight;
+
+        while (heightLeft > 0) {
+            position = heightLeft - imgHeight;
+            pdf.addPage();
+            pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
+            heightLeft -= pageHeight;
+        }
+
+        pdf.save('Invoice-{{ invoiceNumber }}.pdf');
+    }).catch(function (err) {
+        console.error('PDF export failed', err);
+        alert('Could not generate the PDF. Please try again.');
+    }).then(function () {
+        btn.disabled = false;
+        btn.innerHTML = originalText;
+    });
+});
+</script>
