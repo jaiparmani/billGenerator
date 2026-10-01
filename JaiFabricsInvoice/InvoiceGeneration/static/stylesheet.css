@@ -324,6 +324,51 @@ input[type="button"]:active {
   background: var(--color-primary);
 }
 
+/* ---------- Radio / checkbox choice lists ----------
+   Django's RadioSelect/CheckboxSelectMultiple render as a bare
+   <ul id="id_<field>"><li><label><input>...</label></li></ul> - the
+   label already makes the whole row clickable, but the native
+   control itself is tiny. Scoped to ul[id^="id_"] so this doesn't
+   touch Django's own ul.errorlist. */
+
+form ul[id^="id_"] {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+form ul[id^="id_"] li {
+  margin-bottom: 0.6rem;
+}
+
+form ul[id^="id_"] li label {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  width: 100%;
+  padding: 0.85rem 1rem;
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  font-weight: 500;
+  font-size: 1.02rem;
+  cursor: pointer;
+  transition: border-color 0.15s var(--ease), background 0.15s var(--ease);
+}
+
+form ul[id^="id_"] li label:hover {
+  border-color: var(--color-primary);
+  background: var(--color-primary-50);
+}
+
+form ul[id^="id_"] input[type="radio"],
+form ul[id^="id_"] input[type="checkbox"] {
+  width: 22px;
+  height: 22px;
+  min-height: 0;
+  flex-shrink: 0;
+  accent-color: var(--color-primary);
+}
+
 /* ---------- Tables (ledgers / reports) ---------- */
 
 table {
