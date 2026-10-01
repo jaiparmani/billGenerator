@@ -55,6 +55,7 @@ url(r'SecurityForm', views.SecurityForm, name = 'SecurityForm'),
     path("updateBill/<str:pk>/", views.SaleUpdateView.as_view(), name="updateBill"),
         path("deleteBill/<str:pk>/", views.SaleDeleteView.as_view(), name="deleteBill"),
  path("getSaleBill/<str:pk>/", views.getSaleBill, name="getBill"),
+    path("getSaleBillPDF/<str:pk>/", views.getSaleBillPDF, name="getSaleBillPDF"),
 
     path("api/trigger-backup/", views.triggerBackup, name="triggerBackup"),
 

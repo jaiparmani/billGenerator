@@ -4,8 +4,6 @@
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <link rel="stylesheet" href="{% static 'invoice.css'%}">
 <!-- <link rel="" href="{% static 'stylesheet.css'%}"> -->
 <!-- <script type="text/javascript" src="{% static 'javascript.js' %}">
@@ -19,7 +17,7 @@
     <div class="toolbar hidden-print">
         <div class="text-right">
              <a href="{% url 'finalBill' %}"><button id="printInvoice" class="btn btn-info"> Print</button></a>
-            <button type="button" id="exportPdfBtn" class="btn btn-info"><i class="fa fa-file-pdf-o"></i> Export as PDF</button>
+            <a href="{% url 'getSaleBillPDF' pk %}"><button type="button" id="exportPdfBtn" class="btn btn-info"><i class="fa fa-file-pdf-o"></i> Export as PDF</button></a>
         </div>
         <hr>
     </div>
@@ -167,57 +165,3 @@
         <div></div>
     </div>
 </div>
-
-<script>
-document.getElementById('exportPdfBtn').addEventListener('click', function () {
-    var btn = this;
-    var originalText = btn.innerHTML;
-    btn.disabled = true;
-    btn.innerHTML = 'Generating…';
-
-    var target = document.querySelector('.invoice');
-
-    // .invoice has Bootstrap's overflow-auto class, and its content can be
-    // wider than the visible box (it has a min-width:600px inner wrapper).
-    // Without an explicit width/height, html2canvas only captures what's
-    // in the visible/scrolled viewport and clips the rest - force it to
-    // capture the full scrollable content instead.
-    html2canvas(target, {
-        scale: 2,
-        useCORS: true,
-        width: target.scrollWidth,
-        height: target.scrollHeight,
-        windowWidth: target.scrollWidth,
-        windowHeight: target.scrollHeight
-    }).then(function (canvas) {
-        // JPEG instead of PNG: this is a plain white invoice, so the lossy
-        // compression is visually invisible but cuts the PDF from ~18MB to
-        // under 1MB - matters since these get emailed to customers.
-        var imgData = canvas.toDataURL('image/jpeg', 0.92);
-        var pdf = new window.jspdf.jsPDF('p', 'mm', 'a4');
-        var pageWidth = pdf.internal.pageSize.getWidth();
-        var pageHeight = pdf.internal.pageSize.getHeight();
-
-        // Every invoice here is one sale = one line item, so it's always
-        // short. Scale the whole thing to fit a single page instead of
-        // slicing it across pages - simpler, and avoids a row getting cut
-        // in half at a page boundary.
-        var margin = 10;
-        var maxWidth = pageWidth - margin * 2;
-        var maxHeight = pageHeight - margin * 2;
-        var ratio = Math.min(maxWidth / canvas.width, maxHeight / canvas.height);
-        var imgWidth = canvas.width * ratio;
-        var imgHeight = canvas.height * ratio;
-        var x = (pageWidth - imgWidth) / 2;
-
-        pdf.addImage(imgData, 'JPEG', x, margin, imgWidth, imgHeight);
-        pdf.save('Invoice-{{ invoiceNumber }}.pdf');
-    }).catch(function (err) {
-        console.error('PDF export failed', err);
-        alert('Could not generate the PDF. Please try again.');
-    }).then(function () {
-        btn.disabled = false;
-        btn.innerHTML = originalText;
-    });
-});
-</script>

@@ -827,7 +827,7 @@ def Actions(request, pk, saleOrPurchase):
 
 
 
-def getSaleBill(request, pk):
+def _build_sale_bill_context(pk):
     global custAddress1
     global custAddress
     global TransportName
@@ -883,9 +883,24 @@ def getSaleBill(request, pk):
         GSTPERCENTAGE /= 2
     GSTPERCENTAGE = int(GSTPERCENTAGE) if GSTPERCENTAGE %  1 == 0 else float(GSTPERCENTAGE)
 
-    return render(request, 'bill.html',{'TransportName': TransportName, 'lrno':LR_NO, 'GSTType':GSTType,'invoiceNumber':invoiceNumber,'finalList' : finalList,
+    return {'pk': pk, 'TransportName': TransportName, 'lrno':LR_NO, 'GSTType':GSTType,'invoiceNumber':invoiceNumber,'finalList' : finalList,
     'subtotal':subtotal ,'total':total, 'tax':tax, 'customerName':custDetails[1],'custGST':custDetails[0], 'totalFigure':totalFigure, 'invoiceDate': Date,'choice': transportDetails[0],
-    'custAddress1':custAddress1,'custAddress2':custAddress2, 'choiceInfo':transportDetails[1], 'HSN_CODE':HSN_CODE, 'GSTPERCENTAGE':GSTPERCENTAGE})
+    'custAddress1':custAddress1,'custAddress2':custAddress2, 'choiceInfo':transportDetails[1], 'HSN_CODE':HSN_CODE, 'GSTPERCENTAGE':GSTPERCENTAGE}
+
+
+def getSaleBill(request, pk):
+    context = _build_sale_bill_context(pk)
+    return render(request, 'bill.html', context)
+
+
+def getSaleBillPDF(request, pk):
+    from InvoiceGeneration.pdf_utils import build_invoice_pdf
+
+    context = _build_sale_bill_context(pk)
+    pdf_bytes = build_invoice_pdf(context)
+    response = HttpResponse(pdf_bytes, content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="Invoice-{}.pdf"'.format(context['invoiceNumber'])
+    return response
 
 
 
