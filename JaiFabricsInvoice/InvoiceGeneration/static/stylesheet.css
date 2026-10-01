@@ -1,260 +1,490 @@
-#invoice{
-    padding: 30px;
-}
-    @media only screen and (max-width: 600px) {
+/* ============================================================
+   Jai Fabrics — shared design system
+   Mobile-first. Large text and big tap targets throughout so the
+   app is easy to use on a phone, including for non-technical users.
+   ============================================================ */
 
-form input{
-            border: 2px solid black;
+:root {
+  --color-primary: #1d6f42;
+  --color-primary-dark: #15532f;
+  --color-bg: #f4f6f5;
+  --color-surface: #ffffff;
+  --color-text: #1f2a24;
+  --color-text-muted: #5f6b64;
+  --color-border: #d8e0dc;
+  --radius: 12px;
+  --shadow: 0 2px 10px rgba(20, 40, 30, 0.08);
+  --font-size-base: 17px;
+}
 
+* { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: var(--font-size-base);
+  line-height: 1.5;
+  color: var(--color-text);
+  background: var(--color-bg);
+  margin: 0;
 }
+
+a { color: var(--color-primary); }
+
+h1, h2, h3, h4, h5 { font-weight: 700; color: var(--color-text); }
+h1 { font-size: 1.9rem; }
+h4 { font-size: 1.4rem; margin-bottom: 1rem; }
+
+.text-muted { color: var(--color-text-muted) !important; }
+
+/* ---------- Navbar ---------- */
+
+.app-navbar {
+  background: var(--color-primary) !important;
+  box-shadow: var(--shadow);
+  padding: 0.6rem 1rem;
 }
+
+.app-navbar .navbar-brand {
+  font-weight: 700;
+  font-size: 1.3rem;
+}
+
+.app-navbar .navbar-toggler {
+  min-width: 48px;
+  min-height: 44px;
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.app-navbar .nav-link {
+  font-size: 1.05rem;
+  padding: 0.85rem 1rem !important;
+}
+
+.app-navbar .navbar-collapse {
+  margin-top: 0.5rem;
+}
+
+/* ---------- Page layout ---------- */
+
+.app-main {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 1.25rem 1rem 3rem;
+}
+
+.page-header {
+  margin-bottom: 1.5rem;
+}
+
+/* ---------- Dashboard home screen ---------- */
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.9rem;
+}
+
+@media (min-width: 560px) {
+  .dashboard-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (min-width: 860px) {
+  .dashboard-grid { grid-template-columns: repeat(4, 1fr); }
+}
+
+.dashboard-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 120px;
+  padding: 1.25rem 0.75rem;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  text-decoration: none;
+  color: var(--color-text);
+  text-align: center;
+  transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
+}
+
+.dashboard-card:hover,
+.dashboard-card:focus {
+  text-decoration: none;
+  color: var(--color-text);
+  background: #eef6f1;
+  box-shadow: 0 4px 16px rgba(20, 40, 30, 0.14);
+  transform: translateY(-2px);
+}
+
+.dashboard-card:active {
+  transform: translateY(0);
+  background: #e3efe8;
+}
+
+.dashboard-card-icon {
+  font-size: 2.3rem;
+  line-height: 1;
+}
+
+.dashboard-card-label {
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+/* ---------- Cards / content containers ---------- */
+
+.content-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+/* ---------- Forms ----------
+   Django's default {{ form.as_p }} output has no classes to hook
+   into, so these rules target plain elements. Applies everywhere. */
+
+form {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 1.5rem 1.25rem;
+  max-width: 560px;
+  margin: 0 auto;
+}
+
+form p { margin: 0 0 1.1rem; }
+
+form label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+  font-size: 1rem;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="number"],
+input[type="password"],
+input[type="date"],
+input[type="tel"],
+textarea,
+select {
+  width: 100%;
+  min-height: 50px;
+  padding: 0.65rem 0.85rem;
+  font-size: 1.05rem;
+  font-family: inherit;
+  color: var(--color-text);
+  background: #fff;
+  border: 2px solid var(--color-border);
+  border-radius: 10px;
+  transition: border-color 0.12s ease;
+}
+
+textarea { min-height: 110px; }
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+/* Buttons, including bare <input type="submit"> used throughout */
+
+button,
+.btn,
+input[type="submit"],
+input[type="button"] {
+  display: inline-block;
+  min-height: 50px;
+  padding: 0.75rem 1.75rem;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #fff;
+  background: var(--color-primary);
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 0.25rem;
+  transition: background 0.12s ease;
+}
+
+button:hover,
+.btn:hover,
+input[type="submit"]:hover,
+input[type="button"]:hover {
+  background: var(--color-primary-dark);
+  color: #fff;
+}
+
+@media (min-width: 480px) {
+  button,
+  .btn,
+  input[type="submit"],
+  input[type="button"] {
+    width: auto;
+  }
+}
+
+/* A couple of bill.html buttons rely on btn-info; keep them readable */
+.btn-info {
+  background: var(--color-primary);
+}
+
+/* ---------- Tables (ledgers / reports) ----------
+   Plain `table` selector so it applies everywhere, since these
+   report pages use bare HTML tables with no distinguishing class.
+   `.invoice table` below has higher specificity and explicitly
+   resets anything here that would break the printable invoice. */
+
+table {
+  width: 100%;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  border-collapse: collapse;
+  box-shadow: var(--shadow);
+  margin-bottom: 1.5rem;
+  /* CSS-only horizontal scroll on small screens, no markup changes needed */
+  display: block;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+table th,
+table td {
+  padding: 0.7rem 1rem;
+  text-align: left;
+  font-size: 1rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+table thead th {
+  background: #eef6f1;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+table tr:last-child td {
+  border-bottom: none;
+}
+
+/* ============================================================
+   Printable invoice (bill.html / finalBill.html / letterPad.html)
+   Kept close to the original design — these render standalone,
+   outside the app shell above.
+   ============================================================ */
+
+#invoice {
+  padding: 30px;
+}
+
 .invoice {
-    position: relative;
-    background-color: #FFFF;
-    min-height: 680px;
-    padding: 15px
+  position: relative;
+  background-color: #fff;
+  min-height: 680px;
+  padding: 15px;
 }
-@media (min-width: 1200px)
-.container {
-    max-width: 1140px;}
-@media (min-width: 992px)
-.container {
-    max-width: 960px;
-}
-@media (min-width: 400px)
-.jumbotron {
-    padding: 1000px;
-}
-th{
-  font-size: 25px;
-}
-.mainTitle{
-  font-size: 35px;
-}
-table{
-  height: 580px;
-}
-.invoice header {
-    padding: 10px;
 
-    margin-bottom: 20px;
-    border-bottom: 1px solid #3989c6
+.invoice header {
+  padding: 10px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #3989c6;
 }
-jumbotron
-{
-    margin: 1000px;
-}
-footer{
-  font-size: 15px;
-}
+
+footer { font-size: 15px; }
 
 .invoice .company-details {
-    text-align: left;
-    font-size: 20px;
+  text-align: left;
+  font-size: 20px;
 }
 
 .invoice .company-details .name {
-    margin-top: 0;
-    margin-bottom: 0;
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
 .invoice .contacts {
-    margin-bottom: 20px;
-    font-size: 25px;
+  margin-bottom: 20px;
+  font-size: 25px;
 }
 
-.invoice .invoice-to {
-    text-align: left
-}
-.invoice-to{
-  font-size: 20px;
-}
+.invoice .invoice-to { text-align: left; }
+.invoice-to { font-size: 20px; }
 
 .invoice .invoice-to .to {
-    margin-top: 0;
-    margin-bottom: 0
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
-.invoice .invoice-details {
-    text-align: right
-}
-.custName{
-  font-size: 25px;
-}
-#auth{
-font-size: 20 px;
-}
+.invoice .invoice-details { text-align: right; }
+.custName { font-size: 25px; }
+#auth { font-size: 20px; }
+
 .invoice .invoice-details .invoice-id {
-    margin-top: 0;
-    color: #3989c6
+  margin-top: 0;
+  color: #3989c6;
 }
-.invoice-id{
-  font-size:  20px;
-}
-.transport{
-font-size: 20px
-}
+.invoice-id { font-size: 20px; }
+.transport { font-size: 20px; }
 
-.invoice main {
-    padding-bottom: 50px
-}
+.invoice main { padding-bottom: 50px; }
 
-.date{
-  font-size: 20px;
-}
+.date { font-size: 20px; }
 
 .invoice main .thanks {
-    margin-top: -100px;
-    font-size: 2em;
-    margin-bottom: 50px
+  margin-top: -100px;
+  font-size: 2em;
+  margin-bottom: 50px;
 }
-table{
-  font-size: 20px;
-}
+
 .invoice main .notices {
-    padding-left: 6px;
-    border-left: 6px solid #3989c6
+  padding-left: 6px;
+  border-left: 6px solid #3989c6;
 }
-.notices{
-  font-size: 20px;
-}
-.invoice main .notices .notice {
-    font-size: 1.2em
-}
+.notices { font-size: 20px; }
+.invoice main .notices .notice { font-size: 1.2em; }
 
 .invoice table {
-    width: 100%;
-    border-collapse: collapse;
-    border-spacing: 0;
-    margin-bottom: 20px
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  margin-bottom: 20px;
+  font-size: 20px;
+  height: auto;
+  /* reset the generic report-table styling above: this table must
+     keep its original print layout, not become a scrollable card */
+  display: table;
+  overflow-x: visible;
+  white-space: normal;
+  background: none;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
 }
 
-.invoice table td,.invoice table th {
-    padding: 15px;
-    /* background: #eee; */
-    border-bottom: 1px solid #fff;
-
-
+.invoice table td,
+.invoice table th {
+  padding: 15px;
+  border-bottom: 1px solid #fff;
+  vertical-align: top;
 }
 
-.bankDetails
-{
+.invoice table td {
+  font-size: 20px;
+  text-align: left;
+}
+
+.invoice table th {
   font-size: 25px;
   text-align: center;
-  /* border: 5px ; */
-  border:2px solid black;
-
+  background: none;
 }
-.signature{
-  font-style: bold;
+
+.bankDetails {
+  font-size: 25px;
+  text-align: center;
+  border: 2px solid black;
+}
+
+.signature {
+  font-weight: bold;
   color: #3989c6;
   font-size: 30px;
 }
-#title{
-  font-size: 20px;
-}
-#value{
-  font-size: 25px;
-}
-td{
 
-  align-items: flex-start;
-  padding-top: 0px;
-  /* background-color: black; */
-  vertical-align: top;
-}
+#title { font-size: 20px; }
+#value { font-size: 25px; }
+
 .invoice table th {
-    white-space: nowrap;
-    font-weight: 400;
-    font-size: 16px
+  white-space: nowrap;
+  font-weight: 400;
 }
 
 .invoice table td h3 {
-    margin: 0;
-    font-weight: 400;
-    color: #3989c6;
-    font-size: 1.2em
+  margin: 0;
+  font-weight: 400;
+  color: #3989c6;
+  font-size: 1.2em;
 }
 
-.invoice table .qty,.invoice table .total,.invoice table .unit {
-    text-align: right;
-    font-size: 1.2em
+.invoice table .qty,
+.invoice table .total,
+.invoice table .unit {
+  text-align: right;
+  font-size: 1.2em;
 }
 
 .invoice table .no {
-    color: #fff;
-    font-size: 1.6em;
-    /* background: #3989c6 */
+  color: #fff;
+  font-size: 1.6em;
 }
 
-.invoice table .unit {
-    /* background: #ddd */
-}
+.invoice tr { border: bold 10px black; }
+.invoice td { border: bold 10px black; }
 
-.invoice table .total {
-    /* background: #3989c6; */
-    /* color:  */
-}
-tr{
-  border: bold 10px black;
-  align-items: top;
-
-}
-td
-{
-border: bold 10px black;
-}
 .invoice table tbody tr:last-child td {
-    /* border: none */
-    border: bold 10px black;
-
+  border: bold 10px black;
 }
 
 .invoice table tfoot td {
-    background: 0 0;
-    border-bottom: none;
-    white-space: nowrap;
-    text-align: right;
-    padding: 10px 20px;
-    font-size: 1.2em;
-    border-top: 1px solid #aaa
+  background: 0 0;
+  border-bottom: none;
+  white-space: nowrap;
+  text-align: right;
+  padding: 10px 20px;
+  font-size: 1.2em;
+  border-top: 1px solid #aaa;
 }
 
-.invoice table tfoot tr:first-child td {
-    border-top: none
-}
+.invoice table tfoot tr:first-child td { border-top: none; }
 
 .invoice table tfoot tr:last-child td {
-    color: #3989c6;
-    font-size: 1.4em;
-    border-top: 1px solid #3989c6
+  color: #3989c6;
+  font-size: 1.4em;
+  border-top: 1px solid #3989c6;
 }
 
-.invoice table tfoot tr td:first-child {
-    border: none
-}
+.invoice table tfoot tr td:first-child { border: none; }
 
 .invoice footer {
-    width: 100%;
-    text-align: center;
-    color: #777;
-    border-top: 1px solid #aaa;
-    padding: 8px 0
+  width: 100%;
+  text-align: center;
+  color: #777;
+  border-top: 1px solid #aaa;
+  padding: 8px 0;
+}
+
+@media only screen and (max-width: 600px) {
+  form input {
+    border: 2px solid black;
+  }
 }
 
 @media print {
-    .invoice {
-        font-size: 11px!important;
-        overflow: hidden!important
-    }
+  .invoice {
+    font-size: 11px !important;
+    overflow: hidden !important;
+  }
 
-    .invoice footer {
-        position: absolute;
-        bottom: 10px;
-        page-break-after: always
-    }
+  .invoice footer {
+    position: absolute;
+    bottom: 10px;
+    page-break-after: always;
+  }
 
-    .invoice>div:last-child {
-        page-break-before: always
-    }
+  .invoice > div:last-child {
+    page-break-before: always;
+  }
 }

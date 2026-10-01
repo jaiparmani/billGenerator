@@ -7,29 +7,27 @@
 <script type="text/javascript" src="{% static 'admin/js/core.js' %}"></script>
 <script type="text/javascript" src="{% static 'admin/js/admin/RelatedObjectLookups.js' %}"></script>
 
-<!--<link rel="stylesheet" type="text/css" href="{% static 'admin/css/forms.css' %}"/>-->
-<!--<link rel="stylesheet" type="text/css" href="{% static 'admin/css/base.css' %}"/>-->
 <link rel="stylesheet" type="text/css" href="{% static 'admin/css/widgets.css' %}"/>
-<script type="text/javascript" src="{% static 'admin/js/calendar.js' %}"></script> <script type="text/javascript" src="{% static 'admin/js/admin/DateTimeShortcuts.js' %}"></script>
-      <!-- CSS only -->
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+<script type="text/javascript" src="{% static 'admin/js/calendar.js' %}"></script>
+<script type="text/javascript" src="{% static 'admin/js/admin/DateTimeShortcuts.js' %}"></script>
 
-<!-- JS, Popper.js, and jQuery -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
 
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
 <link rel="stylesheet" href="{% static 'stylesheet.css'%}">
-<!--https://www.pythonanywhere.com/user/jaiparmani411/files/home/jaiparmani411/billGenerator/JaiFabricsInvoice/InvoiceGeneration/templates-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <meta charset="utf-8">
-    <title></title>
+    <title>{% block title %}Jai Fabrics{% endblock %}</title>
   </head>
   <body>
-      <!--<div class="container">-->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark app-navbar sticky-top">
       <a class="navbar-brand" href="{% url 'BasePage' %}">Jai Fabrics</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -37,59 +35,97 @@
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-          <!-- <li class="nav-item active">
-            <a class="nav-link" href="#"> <span class="sr-only">(current)</span></a>
-          </li>   -->
-          <li class="nav-item active">
-              <a class="nav-link" href="{% url 'SecurityForm'%}">MakeBill <span class="sr-only">(current)</span></a>
-            </li>
-          <li class="nav-item active">
-              <a class="nav-link" href="{% url 'AddCustomer'%}">AddCustomer <span class="sr-only">(current)</span></a>
-            </li>
-          <li class="nav-item active">
-              <a class="nav-link" href="{% url 'AddPurchase'%}">AddPurchase <span class="sr-only">(current)</span></a>
-            </li>
-             <li class="nav-item active">
-              <a class="nav-link" href="{% url 'AddSeller'%}">AddSeller <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item active">
-              <a class="nav-link" href="{% url 'generateLetter'%}">LetterPad <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item active">
-              <a class="nav-link" href="{% url 'addTransactions'%}">Add Transaction <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item active">
-              <a class="nav-link" href="{% url 'getTransactions'%}">Ledger <span class="sr-only">(current)</span></a>
-            </li>
-                        <li class="nav-item active">
-              <a class="nav-link" href="{% url 'salePartyWise'%}">SalePartyWise <span class="sr-only">(current)</span></a>
-            </li>
-            </li>
-                        <li class="nav-item active">
-              <a class="nav-link" href="{% url 'purchasePartyWise'%}">Purchase Party Wise <span class="sr-only">(current)</span></a>
-            </li>
-            </li>
-                        <li class="nav-item active">
-              <a class="nav-link" href="{% url 'saleTotal'%}">Sale Total <span class="sr-only">(current)</span></a>
-            </li>
-            </li>
-                        <li class="nav-item active">
-              <a class="nav-link" href="{% url 'purchaseTotal'%}">Purchase Total <span class="sr-only">(current)</span></a>
-            </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'SecurityForm' %}">Make Bill</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'AddCustomer' %}">Add Customer</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'AddPurchase' %}">Add Purchase</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'AddSeller' %}">Add Seller</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'generateLetter' %}">Letter Pad</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'addTransactions' %}">Add Transaction</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'getTransactions' %}">Ledger</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'salePartyWise' %}">Sale Party Wise</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'purchasePartyWise' %}">Purchase Party Wise</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'saleTotal' %}">Sale Total</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'purchaseTotal' %}">Purchase Total</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
 
-    </ul>
-        </div>
+    <main class="app-main">
+      {% block body_block %}
+      <div class="page-header">
+        <h1>Welcome back</h1>
+        <p class="text-muted">Tap a button below to get started.</p>
+      </div>
 
-  </nav>
-  <!--</div>-->
-  <div class="container">
-  {% block body_block %}
-
-    <div class="jumbotron jumbotron-fluid">
-      <h1>Welcome to <strong>Jai Fabrics</strong></h1>
-    </div>
-
-{% endblock %}
-</div>
+      <div class="dashboard-grid">
+        <a class="dashboard-card" href="{% url 'SecurityForm' %}">
+          <span class="dashboard-card-icon" aria-hidden="true">🧾</span>
+          <span class="dashboard-card-label">Make Bill</span>
+        </a>
+        <a class="dashboard-card" href="{% url 'AddCustomer' %}">
+          <span class="dashboard-card-icon" aria-hidden="true">👤</span>
+          <span class="dashboard-card-label">Add Customer</span>
+        </a>
+        <a class="dashboard-card" href="{% url 'AddPurchase' %}">
+          <span class="dashboard-card-icon" aria-hidden="true">📦</span>
+          <span class="dashboard-card-label">Add Purchase</span>
+        </a>
+        <a class="dashboard-card" href="{% url 'AddSeller' %}">
+          <span class="dashboard-card-icon" aria-hidden="true">🏭</span>
+          <span class="dashboard-card-label">Add Seller</span>
+        </a>
+        <a class="dashboard-card" href="{% url 'generateLetter' %}">
+          <span class="dashboard-card-icon" aria-hidden="true">✉️</span>
+          <span class="dashboard-card-label">Letter Pad</span>
+        </a>
+        <a class="dashboard-card" href="{% url 'addTransactions' %}">
+          <span class="dashboard-card-icon" aria-hidden="true">💰</span>
+          <span class="dashboard-card-label">Add Transaction</span>
+        </a>
+        <a class="dashboard-card" href="{% url 'getTransactions' %}">
+          <span class="dashboard-card-icon" aria-hidden="true">📒</span>
+          <span class="dashboard-card-label">Ledger</span>
+        </a>
+        <a class="dashboard-card" href="{% url 'salePartyWise' %}">
+          <span class="dashboard-card-icon" aria-hidden="true">📊</span>
+          <span class="dashboard-card-label">Sale Party Wise</span>
+        </a>
+        <a class="dashboard-card" href="{% url 'purchasePartyWise' %}">
+          <span class="dashboard-card-icon" aria-hidden="true">📊</span>
+          <span class="dashboard-card-label">Purchase Party Wise</span>
+        </a>
+        <a class="dashboard-card" href="{% url 'saleTotal' %}">
+          <span class="dashboard-card-icon" aria-hidden="true">📈</span>
+          <span class="dashboard-card-label">Sale Total</span>
+        </a>
+        <a class="dashboard-card" href="{% url 'purchaseTotal' %}">
+          <span class="dashboard-card-icon" aria-hidden="true">📈</span>
+          <span class="dashboard-card-label">Purchase Total</span>
+        </a>
+      </div>
+      {% endblock %}
+    </main>
   </body>
 </html>
