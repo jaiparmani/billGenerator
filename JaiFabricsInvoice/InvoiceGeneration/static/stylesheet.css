@@ -1,260 +1,365 @@
-#invoice{
-    padding: 30px;
-}
-    @media only screen and (max-width: 600px) {
+/* ============================================================
+   Jai Fabrics — app design system
+   Mobile-first, professional, and built for a non-technical user:
+   large tap targets, clear hierarchy, restrained color, real depth.
 
-form input{
-            border: 2px solid black;
+   This file is the *app shell* only (dashboard, forms, nav, report
+   tables). The printable invoice lives entirely in invoice.css and
+   shares nothing with this file by design — see InvoiceGeneration/
+   templates/bill.html, finalBill.html, letterPad.html.
+   ============================================================ */
 
-}
-}
-.invoice {
-    position: relative;
-    background-color: #FFFF;
-    min-height: 680px;
-    padding: 15px
-}
-@media (min-width: 1200px)
-.container {
-    max-width: 1140px;}
-@media (min-width: 992px)
-.container {
-    max-width: 960px;
-}
-@media (min-width: 400px)
-.jumbotron {
-    padding: 1000px;
-}
-th{
-  font-size: 25px;
-}
-.mainTitle{
-  font-size: 35px;
-}
-table{
-  height: 580px;
-}
-.invoice header {
-    padding: 10px;
+:root {
+  --color-primary: #2a6db8;
+  --color-primary-dark: #1f5590;
+  --color-primary-50: #eaf2fa;
+  --color-ink: #16202c;
+  --color-text-muted: #647082;
+  --color-bg: #f4f6f9;
+  --color-surface: #ffffff;
+  --color-border: #e3e7ee;
 
-    margin-bottom: 20px;
-    border-bottom: 1px solid #3989c6
-}
-jumbotron
-{
-    margin: 1000px;
-}
-footer{
-  font-size: 15px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+
+  --shadow-sm: 0 1px 2px rgba(22, 32, 44, 0.06), 0 1px 1px rgba(22, 32, 44, 0.04);
+  --shadow-md: 0 8px 24px rgba(22, 32, 44, 0.08), 0 2px 6px rgba(22, 32, 44, 0.05);
+
+  --font-size-base: 17px;
+  --ease: cubic-bezier(0.2, 0.7, 0.3, 1);
 }
 
-.invoice .company-details {
-    text-align: left;
-    font-size: 20px;
+@media (prefers-reduced-motion: reduce) {
+  * { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
 }
 
-.invoice .company-details .name {
-    margin-top: 0;
-    margin-bottom: 0;
+* { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: var(--font-size-base);
+  line-height: 1.55;
+  color: var(--color-ink);
+  background: var(--color-bg);
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
 }
 
-.invoice .contacts {
-    margin-bottom: 20px;
-    font-size: 25px;
+a {
+  color: var(--color-primary);
+  text-decoration: none;
 }
 
-.invoice .invoice-to {
-    text-align: left
+h1, h2, h3, h4, h5 {
+  font-weight: 700;
+  color: var(--color-ink);
+  letter-spacing: -0.01em;
 }
-.invoice-to{
-  font-size: 20px;
+h1 { font-size: 1.9rem; }
+h4 { font-size: 1.3rem; margin-bottom: 1rem; }
+
+.text-muted { color: var(--color-text-muted) !important; }
+
+::selection { background: var(--color-primary-50); color: var(--color-primary-dark); }
+
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
 }
 
-.invoice .invoice-to .to {
-    margin-top: 0;
-    margin-bottom: 0
+/* ---------- Navbar ---------- */
+
+.app-navbar {
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: saturate(180%) blur(10px);
+  -webkit-backdrop-filter: saturate(180%) blur(10px);
+  border-bottom: 1px solid var(--color-border);
+  padding: 0.6rem 1.1rem;
 }
 
-.invoice .invoice-details {
-    text-align: right
-}
-.custName{
-  font-size: 25px;
-}
-#auth{
-font-size: 20 px;
-}
-.invoice .invoice-details .invoice-id {
-    margin-top: 0;
-    color: #3989c6
-}
-.invoice-id{
-  font-size:  20px;
-}
-.transport{
-font-size: 20px
+.app-navbar .navbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-weight: 700;
+  color: var(--color-ink);
 }
 
-.invoice main {
-    padding-bottom: 50px
+.brand-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  background: var(--color-primary);
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
 }
 
-.date{
-  font-size: 20px;
+.brand-word { font-size: 1.1rem; }
+
+.app-navbar .navbar-toggler {
+  min-width: 48px;
+  min-height: 44px;
+  border-color: var(--color-border);
 }
 
-.invoice main .thanks {
-    margin-top: -100px;
-    font-size: 2em;
-    margin-bottom: 50px
-}
-table{
-  font-size: 20px;
-}
-.invoice main .notices {
-    padding-left: 6px;
-    border-left: 6px solid #3989c6
-}
-.notices{
-  font-size: 20px;
-}
-.invoice main .notices .notice {
-    font-size: 1.2em
+.app-navbar .nav-link {
+  font-size: 1.02rem;
+  font-weight: 500;
+  color: var(--color-ink) !important;
+  padding: 0.85rem 0.9rem !important;
+  border-radius: var(--radius-sm);
+  transition: background 0.15s var(--ease), color 0.15s var(--ease);
 }
 
-.invoice table {
-    width: 100%;
-    border-collapse: collapse;
-    border-spacing: 0;
-    margin-bottom: 20px
+.app-navbar .nav-link:hover {
+  background: var(--color-primary-50);
+  color: var(--color-primary-dark) !important;
 }
 
-.invoice table td,.invoice table th {
-    padding: 15px;
-    /* background: #eee; */
-    border-bottom: 1px solid #fff;
-
-
+.app-navbar .navbar-collapse {
+  margin-top: 0.35rem;
 }
 
-.bankDetails
-{
-  font-size: 25px;
+/* ---------- Page layout ---------- */
+
+.app-main {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 1.5rem 1.1rem 3.5rem;
+}
+
+.page-header {
+  margin-bottom: 1.75rem;
+}
+
+/* ---------- Dashboard home screen ---------- */
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.9rem;
+}
+
+@media (min-width: 560px) {
+  .dashboard-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (min-width: 860px) {
+  .dashboard-grid { grid-template-columns: repeat(4, 1fr); }
+}
+
+.dashboard-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  min-height: 128px;
+  padding: 1.4rem 0.9rem;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  text-decoration: none;
+  color: var(--color-ink);
   text-align: center;
-  /* border: 5px ; */
-  border:2px solid black;
-
-}
-.signature{
-  font-style: bold;
-  color: #3989c6;
-  font-size: 30px;
-}
-#title{
-  font-size: 20px;
-}
-#value{
-  font-size: 25px;
-}
-td{
-
-  align-items: flex-start;
-  padding-top: 0px;
-  /* background-color: black; */
-  vertical-align: top;
-}
-.invoice table th {
-    white-space: nowrap;
-    font-weight: 400;
-    font-size: 16px
+  transition: transform 0.16s var(--ease), box-shadow 0.16s var(--ease), border-color 0.16s var(--ease);
 }
 
-.invoice table td h3 {
-    margin: 0;
-    font-weight: 400;
-    color: #3989c6;
-    font-size: 1.2em
+.dashboard-card:hover,
+.dashboard-card:focus-visible {
+  text-decoration: none;
+  color: var(--color-ink);
+  border-color: transparent;
+  box-shadow: var(--shadow-md);
+  transform: translateY(-3px);
 }
 
-.invoice table .qty,.invoice table .total,.invoice table .unit {
-    text-align: right;
-    font-size: 1.2em
+.dashboard-card:active {
+  transform: translateY(-1px);
 }
 
-.invoice table .no {
-    color: #fff;
-    font-size: 1.6em;
-    /* background: #3989c6 */
+.dashboard-card-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--color-primary-50);
+  color: var(--color-primary);
 }
 
-.invoice table .unit {
-    /* background: #ddd */
+.dashboard-card-icon svg {
+  width: 24px;
+  height: 24px;
 }
 
-.invoice table .total {
-    /* background: #3989c6; */
-    /* color:  */
-}
-tr{
-  border: bold 10px black;
-  align-items: top;
-
-}
-td
-{
-border: bold 10px black;
-}
-.invoice table tbody tr:last-child td {
-    /* border: none */
-    border: bold 10px black;
-
+.dashboard-card-label {
+  font-weight: 600;
+  font-size: 0.98rem;
 }
 
-.invoice table tfoot td {
-    background: 0 0;
-    border-bottom: none;
-    white-space: nowrap;
-    text-align: right;
-    padding: 10px 20px;
-    font-size: 1.2em;
-    border-top: 1px solid #aaa
+/* ---------- Cards / content containers ---------- */
+
+.content-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
 }
 
-.invoice table tfoot tr:first-child td {
-    border-top: none
+/* ---------- Forms ----------
+   Django's default {{ form.as_p }} output has no classes to hook
+   into, so these rules target plain elements. Applies everywhere. */
+
+form {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  padding: 1.75rem 1.4rem;
+  max-width: 560px;
+  margin: 0 auto;
 }
 
-.invoice table tfoot tr:last-child td {
-    color: #3989c6;
-    font-size: 1.4em;
-    border-top: 1px solid #3989c6
+form p { margin: 0 0 1.15rem; }
+
+form label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+  font-size: 0.98rem;
+  color: var(--color-ink);
 }
 
-.invoice table tfoot tr td:first-child {
-    border: none
+input[type="text"],
+input[type="email"],
+input[type="number"],
+input[type="password"],
+input[type="date"],
+input[type="tel"],
+textarea,
+select {
+  width: 100%;
+  min-height: 50px;
+  padding: 0.65rem 0.9rem;
+  font-size: 1.03rem;
+  font-family: inherit;
+  color: var(--color-ink);
+  background: #fff;
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  transition: border-color 0.15s var(--ease), box-shadow 0.15s var(--ease);
 }
 
-.invoice footer {
-    width: 100%;
-    text-align: center;
-    color: #777;
-    border-top: 1px solid #aaa;
-    padding: 8px 0
+textarea { min-height: 110px; }
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 4px var(--color-primary-50);
 }
 
-@media print {
-    .invoice {
-        font-size: 11px!important;
-        overflow: hidden!important
-    }
+/* Buttons, including bare <input type="submit"> used throughout */
 
-    .invoice footer {
-        position: absolute;
-        bottom: 10px;
-        page-break-after: always
-    }
+button,
+.btn,
+input[type="submit"],
+input[type="button"] {
+  display: inline-block;
+  min-height: 50px;
+  padding: 0.75rem 1.9rem;
+  font-size: 1.03rem;
+  font-weight: 600;
+  color: #fff;
+  background: var(--color-primary);
+  border: none;
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  width: 100%;
+  margin-top: 0.25rem;
+  transition: background 0.15s var(--ease), transform 0.1s var(--ease), box-shadow 0.15s var(--ease);
+}
 
-    .invoice>div:last-child {
-        page-break-before: always
-    }
+button:hover,
+.btn:hover,
+input[type="submit"]:hover,
+input[type="button"]:hover {
+  background: var(--color-primary-dark);
+  color: #fff;
+  box-shadow: var(--shadow-md);
+}
+
+button:active,
+.btn:active,
+input[type="submit"]:active,
+input[type="button"]:active {
+  transform: translateY(1px);
+}
+
+@media (min-width: 480px) {
+  button,
+  .btn,
+  input[type="submit"],
+  input[type="button"] {
+    width: auto;
+  }
+}
+
+.btn-info {
+  background: var(--color-primary);
+}
+
+/* ---------- Tables (ledgers / reports) ---------- */
+
+table {
+  width: 100%;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  border-collapse: collapse;
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 1.5rem;
+  /* CSS-only horizontal scroll on small screens, no markup changes needed */
+  display: block;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+table th,
+table td {
+  padding: 0.7rem 1rem;
+  text-align: left;
+  font-size: 0.98rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+table thead th {
+  background: var(--color-primary-50);
+  font-weight: 700;
+  color: var(--color-primary-dark);
+}
+
+table tr:last-child td {
+  border-bottom: none;
+}
+
+@media only screen and (max-width: 600px) {
+  form input {
+    border: 2px solid black;
+  }
 }
