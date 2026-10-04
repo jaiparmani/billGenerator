@@ -515,8 +515,17 @@ def CustomerAndNumberOfItems(request):
         # return form['noOfItems']
 
     else:
-        customerForm = CustForm
-        return render(request, 'CustomerNItems.html', {'CustForm' : CustForm})
+        from django.db.models import Max
+        try:
+            max_num = SaleModel.objects.annotate(
+                invoiceNumber_int=Cast('invoiceNumber', IntegerField())
+            ).aggregate(Max('invoiceNumber_int'))['invoiceNumber_int__max']
+            next_invoice_number = (max_num or 0) + 1
+        except Exception:
+            next_invoice_number = None
+
+        customerForm = CustForm(initial={'invoiceNumber': next_invoice_number})
+        return render(request, 'CustomerNItems.html', {'CustForm' : customerForm})
 
 
 def giveNo():

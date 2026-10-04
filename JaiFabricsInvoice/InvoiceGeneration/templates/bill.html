@@ -17,7 +17,9 @@
     <div class="toolbar hidden-print">
         <div class="text-right">
              <a href="{% url 'finalBill' %}"><button id="printInvoice" class="btn btn-info"> Print</button></a>
+            {% if pk %}
             <a href="{% url 'getSaleBillPDF' pk %}"><button type="button" id="exportPdfBtn" class="btn btn-info"><i class="fa fa-file-pdf-o"></i> Export as PDF</button></a>
+            {% endif %}
         </div>
         <hr>
     </div>

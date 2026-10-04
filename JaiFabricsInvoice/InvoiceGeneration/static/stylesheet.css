@@ -403,6 +403,45 @@ table tr:last-child td {
   border-bottom: none;
 }
 
+/* ---------- Form-layout tables ----------
+   A couple of forms render via as_table() (label|input rows) instead
+   of as_p() - CustForm ("details/" step of Make Bill) and
+   saleDetailForm. The report-table styling above (display:block
+   scroll, card border/shadow) completely breaks that different
+   table shape - this resets it and lays each row out the same way
+   as the as_p() forms: label on top, full-width input below. */
+
+form table {
+  display: block;
+  width: 100%;
+  overflow-x: visible;
+  white-space: normal;
+  background: none;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+form table tbody,
+form table tr {
+  display: block;
+}
+
+form table tr {
+  margin-bottom: 1.15rem;
+}
+
+form table th,
+form table td {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 0;
+  border: none;
+  font-size: inherit;
+  background: none;
+}
+
 @media only screen and (max-width: 600px) {
   form input {
     border: 2px solid black;
