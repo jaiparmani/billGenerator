@@ -58,6 +58,7 @@ url(r'SecurityForm', views.SecurityForm, name = 'SecurityForm'),
     path("getSaleBillPDF/<str:pk>/", views.getSaleBillPDF, name="getSaleBillPDF"),
 
     path("api/trigger-backup/", views.triggerBackup, name="triggerBackup"),
+    path("api/deploy-webhook/", views.deployWebhook, name="deployWebhook"),
 
     # url("updateSale", views.getTransactions, name="getTransactions"),
 

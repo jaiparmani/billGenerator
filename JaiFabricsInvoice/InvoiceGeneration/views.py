@@ -928,3 +928,22 @@ def triggerBackup(request):
     from InvoiceGeneration import backup
     result = backup.run_daily_backup()
     return JsonResponse(result)
+
+
+@csrf_exempt
+@require_POST
+def deployWebhook(request):
+    token = (
+        request.POST.get("token")
+        or request.GET.get("token")
+        or request.headers.get("X-Deploy-Token")
+    )
+    # Fail closed: unlike BACKUP_TRIGGER_TOKEN, DEPLOY_WEBHOOK_TOKEN has no
+    # default, so a missing env var must reject every request rather than
+    # matching None == None.
+    if not settings.DEPLOY_WEBHOOK_TOKEN or token != settings.DEPLOY_WEBHOOK_TOKEN:
+        return JsonResponse({"error": "invalid token"}, status=403)
+
+    from InvoiceGeneration import deploy
+    result = deploy.run_deploy()
+    return JsonResponse(result)

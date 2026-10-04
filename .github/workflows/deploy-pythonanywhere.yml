@@ -1,0 +1,16 @@
+name: Deploy to PythonAnywhere
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Trigger deploy webhook (git pull + pip install + reload)
+        run: |
+          curl -sf -X POST "https://jaiparmani411.pythonanywhere.com/api/deploy-webhook/" \
+            --data-urlencode "token=${{ secrets.DEPLOY_WEBHOOK_TOKEN }}"
