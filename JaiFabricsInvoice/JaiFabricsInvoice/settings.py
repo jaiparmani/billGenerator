@@ -63,13 +63,6 @@ ALLOWED_HOSTS = ['jaiparmani411.pythonanywhere.com','127.0.0.1']
 # Override with a real value via the BACKUP_TRIGGER_TOKEN env var in production.
 BACKUP_TRIGGER_TOKEN = os.environ.get("BACKUP_TRIGGER_TOKEN", "change-me")
 
-# Shared secret required by the /api/deploy-webhook/ endpoint, which runs
-# git pull + pip install + reload on the live server. No insecure default
-# here (unlike BACKUP_TRIGGER_TOKEN above) - if DEPLOY_WEBHOOK_TOKEN isn't
-# set, the endpoint refuses every request rather than falling back to a
-# guessable value, since this one is more privileged.
-DEPLOY_WEBHOOK_TOKEN = os.environ.get("DEPLOY_WEBHOOK_TOKEN")
-
 
 # Application definition
 
