@@ -271,6 +271,7 @@ def GenerateBill(request):
     # isDuplicate = False
     global LR_NO
 
+    pk = None
     if(isDuplicate == '0'):
         try:
 
@@ -281,6 +282,7 @@ def GenerateBill(request):
                 transportName=TransportName, transportGSTOrVehicleNumber=transportDetails[1], LR_NO = LR_NO,
                 HSN_CODE=HSN_CODE)
             obj.save()
+            pk = obj.pk
 
             """
             if(GSTType == 'IGST'):
@@ -313,7 +315,7 @@ def GenerateBill(request):
     totalFigureNumber = float(total)
     totalFigure=num2words(totalFigureNumber, to = 'currency', lang='en', currency ='INR'  )
     # custAddress1, custAddress2 = 1,1
-    return render(request, 'bill.html',{'TransportName': TransportName, 'lrno':LR_NO, 'GSTType':GSTType,'invoiceNumber':invoiceNumber,'finalList' : finalList,
+    return render(request, 'bill.html',{'pk': pk, 'TransportName': TransportName, 'lrno':LR_NO, 'GSTType':GSTType,'invoiceNumber':invoiceNumber,'finalList' : finalList,
     'subtotal':subtotal ,'total':total, 'tax':tax, 'customerName':custDetails[1],'custGST':custDetails[0], 'totalFigure':totalFigure, 'invoiceDate': Date,'choice': transportDetails[0],
     'custAddress1':custAddress1,'custAddress2':custAddress2, 'choiceInfo':transportDetails[1], 'HSN_CODE':HSN_CODE, 'GSTPERCENTAGE':GSTPERCENTAGE})
     print(finalList)
