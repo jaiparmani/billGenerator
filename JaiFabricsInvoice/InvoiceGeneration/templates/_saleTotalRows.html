@@ -1,0 +1,22 @@
+{% load customFilter %}
+{% for i in saleList %}
+{% if not is_filtered and not i.invoiceDate|checkDate:"SaleModel" %}
+<tr class="month-divider">
+  <td colspan="6"><strong>{{ i.invoiceDate.month }}, {{ i.invoiceDate.year }} Total</strong></td>
+  <td data-label="Subtotal">{{ i.invoiceDate|giveOneMoreArgument:"subtotal"|giveSummary:"SaleModel" }}</td>
+  <td data-label="Total">{{ i.invoiceDate|giveOneMoreArgument:"total"|giveSummary:"SaleModel" }}</td>
+  <td></td>
+</tr>
+{% endif %}
+<tr>
+  <td data-label="Bill No"><a class="btn btn-info" href="{% url 'getBill' i.pk %}">{{ i.invoiceNumber }}</a></td>
+  <td data-label="Date">{{ i.invoiceDate }}</td>
+  <td data-label="Customer">{{ i.custName }}</td>
+  <td data-label="Item">{{ i.itemName }}</td>
+  <td data-label="Quantity">{{ i.quantity }}</td>
+  <td data-label="Price/Unit">{{ i.pricePerUnit }}</td>
+  <td data-label="Subtotal">{{ i.subtotal }}</td>
+  <td data-label="Total">{{ i.total }}</td>
+  <td data-label="Modify"><a class="btn" href="{% url 'getActions' i.pk %}">Modify</a></td>
+</tr>
+{% endfor %}

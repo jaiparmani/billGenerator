@@ -6,9 +6,15 @@
   <h1>Sale Total</h1>
 </div>
 
-<form class="search-bar" method="get" role="search">
+<form class="search-bar" method="get" action="{% url 'saleTotal' %}" role="search">
   <svg class="search-bar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
   <input type="search" name="q" value="{{ query }}" placeholder="Search by customer, bill no. or item&hellip;">
+  <select name="custGST" class="customer-filter" onchange="this.form.submit()">
+    <option value="">All customers</option>
+    {% for gst, name in customers %}
+    <option value="{{ gst }}" {% if gst == custGST %}selected{% endif %}>{{ name }}</option>
+    {% endfor %}
+  </select>
   <button type="submit">Search</button>
   {% if is_filtered %}
   <a class="search-clear" href="{% url 'saleTotal' %}">Clear</a>
@@ -28,7 +34,7 @@
 
 {% if not saleList and is_filtered %}
 <div class="empty-state">
-  <p>No bills found for &ldquo;{{ query }}&rdquo;.</p>
+  <p>No bills found{% if query %} for &ldquo;{{ query }}&rdquo;{% endif %}.</p>
   <a class="btn" href="{% url 'saleTotal' %}">Clear search</a>
 </div>
 {% else %}
@@ -46,44 +52,97 @@
       <th></th>
     </tr>
   </thead>
-  <tbody>
-    {% for i in saleList %}
-    {% if not is_filtered and not i.invoiceDate|checkDate:"SaleModel" %}
-    <tr class="month-divider">
-      <td colspan="6"><strong>{{ i.invoiceDate.month }}, {{ i.invoiceDate.year }} Total</strong></td>
-      <td data-label="Subtotal">{{ i.invoiceDate|giveOneMoreArgument:"subtotal"|giveSummary:"SaleModel" }}</td>
-      <td data-label="Total">{{ i.invoiceDate|giveOneMoreArgument:"total"|giveSummary:"SaleModel" }}</td>
-      <td></td>
-    </tr>
-    {% endif %}
-    <tr>
-      <td data-label="Bill No"><a class="btn btn-info" href="{% url 'getBill' i.pk %}">{{ i.invoiceNumber }}</a></td>
-      <td data-label="Date">{{ i.invoiceDate }}</td>
-      <td data-label="Customer">{{ i.custName }}</td>
-      <td data-label="Item">{{ i.itemName }}</td>
-      <td data-label="Quantity">{{ i.quantity }}</td>
-      <td data-label="Price/Unit">{{ i.pricePerUnit }}</td>
-      <td data-label="Subtotal">{{ i.subtotal }}</td>
-      <td data-label="Total">{{ i.total }}</td>
-      <td data-label="Modify"><a class="btn" href="{% url 'getActions' i.pk %}">Modify</a></td>
-    </tr>
-    {% endfor %}
+  <tbody id="sale-rows">
+    {% include "_saleTotalRows.html" %}
   </tbody>
 </table>
-{% endif %}
 
-{% if page_obj.has_other_pages %}
-<div class="pagination">
-  <ul class="pagination">
-    {% if page_obj.has_previous %}
-    <li class="page-item"><a class="page-link" href="?page=1{% if query %}&q={{ query }}{% endif %}">&laquo; first</a></li>
-    <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if query %}&q={{ query }}{% endif %}">previous</a></li>
-    {% endif %}
-    {% if page_obj.has_next %}
-    <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}{% if query %}&q={{ query }}{% endif %}">next</a></li>
-    <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}{% if query %}&q={{ query }}{% endif %}">last &raquo;</a></li>
-    {% endif %}
-  </ul>
+<div
+  id="scroll-sentinel"
+  data-query="{{ query }}"
+  data-custgst="{{ custGST }}"
+  data-next-page="{% if page_obj.has_next %}{{ page_obj.next_page_number }}{% endif %}"
+  data-has-next="{{ page_obj.has_next|yesno:'true,false' }}"
+  {% if not page_obj.has_next %}hidden{% endif %}
+>
+  <p class="load-status text-muted" hidden>Loading more&hellip;</p>
+  <button type="button" class="btn load-more">Load more</button>
 </div>
+
+<script>
+(function () {
+  var sentinel = document.getElementById('scroll-sentinel');
+  if (!sentinel) return;
+
+  var rowsBody = document.getElementById('sale-rows');
+  var loadMoreBtn = sentinel.querySelector('.load-more');
+  var loadStatus = sentinel.querySelector('.load-status');
+  var loading = false;
+  var sourceUrl = '{% url "saleTotal" %}';
+
+  function updateVisibility() {
+    sentinel.hidden = sentinel.dataset.hasNext !== 'true';
+  }
+
+  function maybeLoadMoreIfStillVisible() {
+    if (sentinel.hidden) return;
+    var rect = sentinel.getBoundingClientRect();
+    if (rect.top < window.innerHeight) {
+      loadNextPage();
+    }
+  }
+
+  function loadNextPage() {
+    if (loading) return;
+    if (sentinel.dataset.hasNext !== 'true' || !sentinel.dataset.nextPage) return;
+
+    loading = true;
+    loadStatus.hidden = false;
+    loadMoreBtn.disabled = true;
+
+    var nextPage = sentinel.dataset.nextPage;
+    var params = new URLSearchParams();
+    params.set('page', nextPage);
+    params.set('partial', '1');
+    if (sentinel.dataset.query) params.set('q', sentinel.dataset.query);
+    if (sentinel.dataset.custgst) params.set('custGST', sentinel.dataset.custgst);
+
+    fetch(sourceUrl + '?' + params.toString(), {
+      headers: { 'X-Requested-With': 'XMLHttpRequest' }
+    })
+      .then(function (response) {
+        var hasNext = response.headers.get('X-Has-Next') === 'true';
+        return response.text().then(function (html) {
+          rowsBody.insertAdjacentHTML('beforeend', html);
+          sentinel.dataset.hasNext = hasNext ? 'true' : 'false';
+          sentinel.dataset.nextPage = hasNext ? String(parseInt(nextPage, 10) + 1) : '';
+          updateVisibility();
+        });
+      })
+      .catch(function () {
+        // Leave hasNext/nextPage as-is so the Load more button still offers a retry.
+      })
+      .finally(function () {
+        loading = false;
+        loadStatus.hidden = true;
+        loadMoreBtn.disabled = false;
+        requestAnimationFrame(maybeLoadMoreIfStillVisible);
+      });
+  }
+
+  loadMoreBtn.addEventListener('click', loadNextPage);
+
+  if ('IntersectionObserver' in window) {
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) loadNextPage();
+      });
+    }, { rootMargin: '200px' });
+    observer.observe(sentinel);
+  }
+
+  updateVisibility();
+})();
+</script>
 {% endif %}
 {%endblock %}

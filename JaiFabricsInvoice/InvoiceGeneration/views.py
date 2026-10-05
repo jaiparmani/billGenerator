@@ -352,6 +352,9 @@ class saleTotal(ListView):
         qs = SaleModel.objects.exclude(invoiceNumber__lt=fromBillNo) \
             .annotate(invoiceNumber_int=Cast('invoiceNumber', IntegerField()))
         query = self.request.GET.get('q', '').strip()
+        custGST = self.request.GET.get('custGST', '').strip()
+        if custGST:
+            qs = qs.filter(custGST=custGST)
         if query:
             qs = qs.filter(
                 Q(custName__icontains=query) |
@@ -360,18 +363,35 @@ class saleTotal(ListView):
             )
         return qs.order_by('-invoiceNumber_int')
 
+    def get_template_names(self):
+        if self.request.GET.get('partial') == '1':
+            return ['_saleTotalRows.html']
+        return ['saleTotal.html']
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         query = self.request.GET.get('q', '').strip()
+        custGST = self.request.GET.get('custGST', '').strip()
         context['query'] = query
-        context['is_filtered'] = bool(query)
+        context['custGST'] = custGST
+        context['is_filtered'] = bool(query) or bool(custGST)
+        context['customers'] = SaleModel.objects.values_list(
+            'custGST', 'custName'
+        ).distinct().order_by('custName')
         totals = self.get_queryset().aggregate(
             totalAmount=Sum(Cast('total', FloatField())),
             billCount=Count('id'),
         )
         context['totalAmount'] = totals['totalAmount'] or 0
         context['billCount'] = totals['billCount'] or 0
+        page_obj = context.get('page_obj')
+        self._has_next = bool(page_obj and page_obj.has_next())
         return context
+
+    def get(self, request, *args, **kwargs):
+        response = super().get(request, *args, **kwargs)
+        response['X-Has-Next'] = 'true' if getattr(self, '_has_next', False) else 'false'
+        return response
 from InvoiceGeneration.models import PurchaseModel
 class purchaseTotal(ListView):
     # pass
@@ -560,15 +580,14 @@ def giveNo():
 
 # Return Month wise and Partyy wise
 from InvoiceGeneration.forms import salePartyWiseForm
+from django.urls import reverse
+from urllib.parse import urlencode
 def salePartyWise(request):
     if request.method=="POST":
         form = salePartyWiseForm(request.POST)
         if form.is_valid():
-            custName = str(form.cleaned_data['custName']).split(":")[0]
-            bills=SaleModel.objects.all().filter(custGST=str(form.cleaned_data['custName']).split(":")[1]) \
-                .annotate(invoiceNumber_int=Cast('invoiceNumber', IntegerField())).order_by('-invoiceNumber_int')
-            # return HttpResponse(bills)
-            return render(request, "saleTotal.html", {"saleList":bills, "custName": custName })
+            custGST = str(form.cleaned_data['custName']).split(":")[1]
+            return redirect('{}?{}'.format(reverse('saleTotal'), urlencode({'custGST': custGST})))
 
     else:
         form=salePartyWiseForm
