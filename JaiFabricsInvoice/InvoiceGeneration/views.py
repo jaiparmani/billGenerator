@@ -565,7 +565,8 @@ def salePartyWise(request):
         form = salePartyWiseForm(request.POST)
         if form.is_valid():
             custName = str(form.cleaned_data['custName']).split(":")[0]
-            bills=SaleModel.objects.all().filter(custGST=str(form.cleaned_data['custName']).split(":")[1]).order_by("-invoiceNumber")
+            bills=SaleModel.objects.all().filter(custGST=str(form.cleaned_data['custName']).split(":")[1]) \
+                .annotate(invoiceNumber_int=Cast('invoiceNumber', IntegerField())).order_by('-invoiceNumber_int')
             # return HttpResponse(bills)
             return render(request, "saleTotal.html", {"saleList":bills, "custName": custName })
 
