@@ -633,10 +633,12 @@ def generateLetter(request):
         form = letterForm(request.POST)
         if form.is_valid():
             custName=str(form.cleaned_data['custName'])
-            letterDate=str(form.cleaned_data['letterDate'])
+            letterDate=form.cleaned_data['letterDate']
 
             letterBody=str(form.cleaned_data['letterBody'])
             return render(request, 'letterPad.html', {'letterDate':letterDate,'custName':custName, 'letterBody':letterBody, })
+        else:
+            return render(request, 'letterFormPage.html',{'form':form})
     else:
         form=letterForm
 

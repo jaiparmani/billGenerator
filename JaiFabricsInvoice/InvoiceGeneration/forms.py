@@ -163,9 +163,21 @@ class purchasePartyWiseForm(forms.Form):
 
 
 class letterForm(forms.Form):
-    letterDate = forms.DateField(widget=AdminDateWidget, initial=datetime.date.today())
-    custName = forms.CharField(max_length=100)
-    letterBody=forms.CharField(max_length=1000, widget=forms.Textarea(attrs={"rows":5, "cols":20}))
+    letterDate = forms.DateField(
+        label="Date",
+        widget=forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
+        initial=datetime.date.today(),
+    )
+    custName = forms.CharField(
+        label="To",
+        max_length=100,
+        widget=forms.TextInput(attrs={'placeholder': "Who is this letter addressed to?"}),
+    )
+    letterBody = forms.CharField(
+        label="Letter",
+        max_length=1000,
+        widget=forms.Textarea(attrs={'rows': 10, 'placeholder': "Write the letter here…"}),
+    )
 
 
 
