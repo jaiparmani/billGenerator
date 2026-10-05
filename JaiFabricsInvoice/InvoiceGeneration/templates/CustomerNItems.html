@@ -11,4 +11,18 @@
   {%  csrf_token %}
   <input href= "{% url 'Form' %}" type="submit" name="" value="Continue">
 </form>
+<script>
+  // The invoice number field arrives pre-filled with the suggested next
+  // number (latest bill + 1). Select it on focus so tapping in and typing
+  // replaces that suggestion instead of appending to it - without this,
+  // a normal tap-and-type on mobile corrupts the invoice number.
+  (function () {
+    var field = document.getElementById('id_invoiceNumber');
+    if (field) {
+      field.addEventListener('focus', function () {
+        this.select();
+      });
+    }
+  })();
+</script>
 {%endblock%}

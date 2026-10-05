@@ -80,7 +80,11 @@ class TransactionForm(forms.Form):
 
 class CustForm(forms.Form):
     isDuplicate = forms.ChoiceField(label="Is it a duplicate Bill?",widget = forms.RadioSelect, choices = [('1','YES'), ('0','NO')])
-    invoiceNumber = forms.CharField(label="Inovice Number",required = True)
+    invoiceNumber = forms.CharField(
+        label="Inovice Number",
+        required = True,
+        widget=forms.TextInput(attrs={'inputmode': 'numeric', 'autocomplete': 'off'}),
+    )
     invoiceDate = forms.DateField(label="Inovice Date(YYYY-MM-DD)", required = True, widget=AdminDateWidget, initial=datetime.date.today())
     # custList = list(CustomerModel.objects.all())
     # for i in CustomerModel.objects.all():
@@ -94,8 +98,8 @@ class CustForm(forms.Form):
     CHOICES = [('1','GST'), ('2','Vehicle Number')]
     SELECTYOURCHOICE=forms.ChoiceField(label="TRANSPORT",widget=forms.RadioSelect, choices=CHOICES)
 
-    GSTorVehicleNumber=forms.CharField(label="Enter GST or vechicle number of transport:",max_length =  20, required = False)
-    TransportName = forms.CharField(label="Enter Transport Name:",max_length = 50, required = False)
+    GSTorVehicleNumber=forms.CharField(label="Enter GST or vechicle number of transport:",max_length =  30, required = False)
+    TransportName = forms.CharField(label="Enter Transport Name:",max_length = 60, required = False)
     LR_NO = forms.CharField(label="Enter LR no.:",required = False)
 
 
@@ -124,11 +128,11 @@ class AddPurchaseForm(forms.Form):
     # sellerName = forms.CharField(max_length = 40)
     # sellerGST = forms.CharField(max_length = 15)
     invoiceNumber = forms.CharField(max_length = 15)
-    itemName = forms.CharField(max_length = 25)
+    itemName = forms.CharField(max_length = 100)
     HSN = forms.ChoiceField(label="HSN Code", widget = forms.RadioSelect, choices = [('5407', '5407'), ('5402', '5402'), ('9988', '9988'),('8471','8471(Computer)')])
     quantity = forms.CharField(max_length = 15)
-    pricePerUnit = forms.CharField(max_length = 8)
-    otherCharges = forms.CharField(max_length = 10)
+    pricePerUnit = forms.CharField(max_length = 20)
+    otherCharges = forms.CharField(max_length = 20)
     # subTotal = forms.CharField(max_length = 10)
     # gstType = forms.CharField(max_length = 10)
     gstType2 = forms.ChoiceField(label="Select GST Type", widget = forms.RadioSelect, choices = [('CGST+SGST(6%+6%)','CGST+SGST(6%+6%)'),('IGST(12%)', 'IGST(12%)'), ('CGST+SGST(2.5%+2.5%)','CGST+SGST(2.5%+2.5%)'),('IGST(5%)', 'IGST(5%)'),('CGST+SGST(9%+9%)','CGST+SGST(9%+9%)')])
