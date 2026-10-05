@@ -568,6 +568,20 @@ form table td {
   color: var(--color-primary-dark);
 }
 
+/* ---------- "Today" quick-fill link (native date inputs) ---------- */
+
+.date-today-link {
+  display: inline-block;
+  margin-top: 0.5rem;
+  font-weight: 600;
+  font-size: 0.92rem;
+  color: var(--color-primary);
+}
+
+.date-today-link:hover {
+  color: var(--color-primary-dark);
+}
+
 /* ---------- Summary stat cards ---------- */
 
 .stat-cards {

@@ -85,7 +85,12 @@ class CustForm(forms.Form):
         required = True,
         widget=forms.TextInput(attrs={'inputmode': 'numeric', 'autocomplete': 'off'}),
     )
-    invoiceDate = forms.DateField(label="Inovice Date(YYYY-MM-DD)", required = True, widget=AdminDateWidget, initial=datetime.date.today())
+    invoiceDate = forms.DateField(
+        label="Inovice Date",
+        required = True,
+        widget=forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
+        initial=datetime.date.today(),
+    )
     # custList = list(CustomerModel.objects.all())
     # for i in CustomerModel.objects.all():
         # custList.append(i)

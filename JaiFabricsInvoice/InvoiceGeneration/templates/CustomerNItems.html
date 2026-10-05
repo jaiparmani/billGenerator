@@ -24,5 +24,25 @@
       });
     }
   })();
+
+  // Native date inputs don't offer a one-tap "today" shortcut the way
+  // the old admin calendar widget did - add one back.
+  (function () {
+    var dateField = document.getElementById('id_invoiceDate');
+    if (!dateField) return;
+    var todayLink = document.createElement('a');
+    todayLink.href = '#';
+    todayLink.className = 'date-today-link';
+    todayLink.textContent = 'Today';
+    todayLink.addEventListener('click', function (e) {
+      e.preventDefault();
+      var now = new Date();
+      var mm = String(now.getMonth() + 1).padStart(2, '0');
+      var dd = String(now.getDate()).padStart(2, '0');
+      dateField.value = now.getFullYear() + '-' + mm + '-' + dd;
+      dateField.dispatchEvent(new Event('change'));
+    });
+    dateField.insertAdjacentElement('afterend', todayLink);
+  })();
 </script>
 {%endblock%}
