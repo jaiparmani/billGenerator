@@ -1,22 +1,22 @@
-"""Server-side auto-deploy: git pull + pip install + reload.
+"""Server-side auto-deploy: git pull + pip install + migrate + reload.
 
 Triggered by the deploy-pythonanywhere.yml GitHub Actions workflow on
 every push to master, via the (intentionally unauthenticated - the
 user's explicit choice) /api/deploy-webhook/ endpoint. Closes the loop
 that previously required manually running `git pull` + `pip install` +
-clicking Reload on PythonAnywhere after every push.
+`migrate` + clicking Reload on PythonAnywhere after every push.
 
 Reload uses PythonAnywhere's documented trick of touching the app's
 WSGI file - their process manager watches its mtime and reloads the
 app on change. This works on every plan tier, unlike the official
 reload API, which is gated on some plans.
 
-IMPORTANT: reload is always attempted, even if pip install fails.
-Skipping it on failure would mean a currently-running process (with a
-bug already loaded into memory) could never pick up a fix pushed to
-fix that exact bug, since picking it up IS what reload does - a
-self-inflicted deadlock. Better to reload with whatever code pulled
-successfully and surface the pip failure in the response.
+IMPORTANT: reload is always attempted, even if pip install or migrate
+fails. Skipping it on failure would mean a currently-running process
+(with a bug already loaded into memory) could never pick up a fix
+pushed to fix that exact bug, since picking it up IS what reload does
+- a self-inflicted deadlock. Better to reload with whatever code
+pulled successfully and surface the failure in the response.
 """
 
 import logging
@@ -25,6 +25,7 @@ import subprocess
 import sys
 
 from django.conf import settings
+from django.core.management import call_command
 
 logger = logging.getLogger("InvoiceGeneration.deploy")
 
@@ -51,14 +52,20 @@ def _run(*args):
 
 
 def run_deploy():
-    """Pull latest code, install any new/changed dependencies, reload.
+    """Pull latest code, install dependencies, apply migrations, reload.
 
     Returns a dict describing what happened, same shape as backup's
     run_daily_backup(), so the webhook can report the real outcome
     instead of a bare "OK".
     """
     logger.info("Deploy: starting")
-    result = {"pulled": False, "pip_installed": False, "reloaded": False, "message": ""}
+    result = {
+        "pulled": False,
+        "pip_installed": False,
+        "migrated": False,
+        "reloaded": False,
+        "message": "",
+    }
 
     try:
         _run("git", "pull", "origin", "master")
@@ -83,15 +90,31 @@ def run_deploy():
     except subprocess.CalledProcessError as exc:
         logger.error("Deploy: pip install failed: %s", exc.stderr)
         result["message"] = "pip install failed: {}".format(exc.stderr)
-        # Deliberately fall through to the reload below rather than
+        # Deliberately fall through to migrate/reload below rather than
+        # returning here - see the module docstring.
+
+    try:
+        call_command("migrate", interactive=False, verbosity=0)
+        result["migrated"] = True
+    except Exception as exc:
+        logger.exception("Deploy: migrate failed")
+        migrate_msg = "migrate failed: {}".format(exc)
+        result["message"] = (
+            "{}; {}".format(result["message"], migrate_msg)
+            if result["message"] else migrate_msg
+        )
+        # Deliberately fall through to reload below rather than
         # returning here - see the module docstring.
 
     try:
         os.utime(WSGI_RELOAD_FILE, None)
         result["reloaded"] = True
-        if result["pip_installed"]:
+        if result["pip_installed"] and result["migrated"]:
             result["message"] = "deployed and reloaded"
-        logger.info("Deploy: reloaded (pip_installed=%s)", result["pip_installed"])
+        logger.info(
+            "Deploy: reloaded (pip_installed=%s, migrated=%s)",
+            result["pip_installed"], result["migrated"],
+        )
     except OSError as exc:
         logger.error("Deploy: reload (touch wsgi file) failed: %s", exc)
         reload_msg = "reload failed: {} (check the PA_WSGI_FILE path)".format(exc)
