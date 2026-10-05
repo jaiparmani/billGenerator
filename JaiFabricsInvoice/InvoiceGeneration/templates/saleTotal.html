@@ -6,6 +6,32 @@
   <h1>Sale Total</h1>
 </div>
 
+<form class="search-bar" method="get" role="search">
+  <svg class="search-bar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+  <input type="search" name="q" value="{{ query }}" placeholder="Search by customer, bill no. or item&hellip;">
+  <button type="submit">Search</button>
+  {% if is_filtered %}
+  <a class="search-clear" href="{% url 'saleTotal' %}">Clear</a>
+  {% endif %}
+</form>
+
+<div class="stat-cards">
+  <div class="stat-card">
+    <span class="stat-card-value">&#8377;{{ totalAmount|floatformat:0 }}</span>
+    <span class="stat-card-label">{% if is_filtered %}Total (filtered){% else %}Total Sales{% endif %}</span>
+  </div>
+  <div class="stat-card">
+    <span class="stat-card-value">{{ billCount }}</span>
+    <span class="stat-card-label">{% if is_filtered %}Bills found{% else %}Bills{% endif %}</span>
+  </div>
+</div>
+
+{% if not saleList and is_filtered %}
+<div class="empty-state">
+  <p>No bills found for &ldquo;{{ query }}&rdquo;.</p>
+  <a class="btn" href="{% url 'saleTotal' %}">Clear search</a>
+</div>
+{% else %}
 <table>
   <thead>
     <tr>
@@ -22,51 +48,40 @@
   </thead>
   <tbody>
     {% for i in saleList %}
-    {% if i.invoiceDate|checkDate:"SaleModel" %}
-    <tr>
-      <td><a class="btn btn-info" href="{% url 'getBill' i.pk %}">{{i.invoiceNumber}}</a></td>
-      <td>{{i.invoiceDate}}</td>
-      <td>{{i.custName}}</td>
-      <td>{{i.itemName}}</td>
-      <td>{{i.quantity}}</td>
-      <td>{{i.pricePerUnit}}</td>
-      <td>{{i.subtotal}}</td>
-      <td>{{i.total}}</td>
-      <td><a class="btn" href="{% url 'getActions' i.pk %}">Modify</a></td>
-    </tr>
-    {% else %}
-    <tr>
-      <td colspan="6"><strong>{{i.invoiceDate.month}}, {{i.invoiceDate.year}} Total</strong></td>
-      <td>{{i.invoiceDate|giveOneMoreArgument:"subtotal"|giveSummary:"SaleModel"}}</td>
-      <td>{{i.invoiceDate|giveOneMoreArgument:"total"|giveSummary:"SaleModel"}}</td>
+    {% if not is_filtered and not i.invoiceDate|checkDate:"SaleModel" %}
+    <tr class="month-divider">
+      <td colspan="6"><strong>{{ i.invoiceDate.month }}, {{ i.invoiceDate.year }} Total</strong></td>
+      <td data-label="Subtotal">{{ i.invoiceDate|giveOneMoreArgument:"subtotal"|giveSummary:"SaleModel" }}</td>
+      <td data-label="Total">{{ i.invoiceDate|giveOneMoreArgument:"total"|giveSummary:"SaleModel" }}</td>
       <td></td>
     </tr>
-    <tr>
-      <td><a class="btn btn-info" href="{% url 'getBill' i.pk %}">{{i.invoiceNumber}}</a></td>
-      <td>{{i.invoiceDate}}</td>
-      <td>{{i.custName}}</td>
-      <td>{{i.itemName}}</td>
-      <td>{{i.quantity}}</td>
-      <td>{{i.pricePerUnit}}</td>
-      <td>{{i.subtotal}}</td>
-      <td>{{i.total}}</td>
-      <td><a class="btn" href="{% url 'getActions' i.pk %}">Modify</a></td>
-    </tr>
     {% endif %}
+    <tr>
+      <td data-label="Bill No"><a class="btn btn-info" href="{% url 'getBill' i.pk %}">{{ i.invoiceNumber }}</a></td>
+      <td data-label="Date">{{ i.invoiceDate }}</td>
+      <td data-label="Customer">{{ i.custName }}</td>
+      <td data-label="Item">{{ i.itemName }}</td>
+      <td data-label="Quantity">{{ i.quantity }}</td>
+      <td data-label="Price/Unit">{{ i.pricePerUnit }}</td>
+      <td data-label="Subtotal">{{ i.subtotal }}</td>
+      <td data-label="Total">{{ i.total }}</td>
+      <td data-label="Modify"><a class="btn" href="{% url 'getActions' i.pk %}">Modify</a></td>
+    </tr>
     {% endfor %}
   </tbody>
 </table>
+{% endif %}
 
 {% if page_obj.has_other_pages %}
 <div class="pagination">
   <ul class="pagination">
     {% if page_obj.has_previous %}
-    <li class="page-item"><a class="page-link" href="?page=1">&laquo; first</a></li>
-    <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">previous</a></li>
+    <li class="page-item"><a class="page-link" href="?page=1{% if query %}&q={{ query }}{% endif %}">&laquo; first</a></li>
+    <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if query %}&q={{ query }}{% endif %}">previous</a></li>
     {% endif %}
     {% if page_obj.has_next %}
-    <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">next</a></li>
-    <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a></li>
+    <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}{% if query %}&q={{ query }}{% endif %}">next</a></li>
+    <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}{% if query %}&q={{ query }}{% endif %}">last &raquo;</a></li>
     {% endif %}
   </ul>
 </div>

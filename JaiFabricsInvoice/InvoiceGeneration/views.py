@@ -7,7 +7,7 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 
-from django.db.models import IntegerField
+from django.db.models import IntegerField, FloatField, Q, Sum, Count
 
 
 # Create your views here.
@@ -346,7 +346,30 @@ class saleTotal(ListView):
     #             extra_days += 1
 
 
-    queryset = SaleModel.objects.exclude(invoiceNumber__lt=fromBillNo).annotate(invoiceNumber_int=Cast('invoiceNumber', IntegerField())).order_by('-invoiceNumber_int')
+    def get_queryset(self):
+        qs = SaleModel.objects.exclude(invoiceNumber__lt=fromBillNo) \
+            .annotate(invoiceNumber_int=Cast('invoiceNumber', IntegerField()))
+        query = self.request.GET.get('q', '').strip()
+        if query:
+            qs = qs.filter(
+                Q(custName__icontains=query) |
+                Q(invoiceNumber__icontains=query) |
+                Q(itemName__icontains=query)
+            )
+        return qs.order_by('-invoiceNumber_int')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        query = self.request.GET.get('q', '').strip()
+        context['query'] = query
+        context['is_filtered'] = bool(query)
+        totals = self.get_queryset().aggregate(
+            totalAmount=Sum(Cast('total', FloatField())),
+            billCount=Count('id'),
+        )
+        context['totalAmount'] = totals['totalAmount'] or 0
+        context['billCount'] = totals['billCount'] or 0
+        return context
 from InvoiceGeneration.models import PurchaseModel
 class purchaseTotal(ListView):
     # pass

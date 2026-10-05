@@ -498,3 +498,218 @@ form table td {
     border: 2px solid black;
   }
 }
+
+/* ---------- Search bar (Sale Total / report lists) ---------- */
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  padding: 0.6rem 0.75rem;
+  max-width: none;
+  margin: 0 0 1.25rem;
+}
+
+.search-bar-icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  color: var(--color-text-muted);
+}
+
+.search-bar input[type="search"] {
+  flex: 1 1 200px;
+  min-width: 0;
+  min-height: 44px;
+  border: none;
+  padding: 0.4rem 0;
+}
+
+.search-bar input[type="search"]:focus {
+  box-shadow: none;
+}
+
+.search-bar button {
+  width: auto;
+  min-height: 44px;
+  padding: 0.6rem 1.4rem;
+}
+
+.search-clear {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--color-text-muted);
+  padding: 0.6rem 0.2rem;
+}
+
+.search-clear:hover {
+  color: var(--color-primary-dark);
+}
+
+/* ---------- Summary stat cards ---------- */
+
+.stat-cards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.9rem;
+  margin-bottom: 1.5rem;
+}
+
+.stat-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  padding: 1.1rem 1.25rem;
+}
+
+.stat-card-value {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--color-primary-dark);
+  letter-spacing: -0.01em;
+}
+
+.stat-card-label {
+  font-size: 0.92rem;
+  font-weight: 500;
+  color: var(--color-text-muted);
+}
+
+@media (min-width: 480px) {
+  .stat-card-value { font-size: 1.85rem; }
+}
+
+/* ---------- Empty state ---------- */
+
+.empty-state {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  padding: 2.5rem 1.5rem;
+  text-align: center;
+  color: var(--color-text-muted);
+}
+
+.empty-state p {
+  margin: 0 0 1rem;
+  font-size: 1.05rem;
+}
+
+.empty-state .btn {
+  width: auto;
+}
+
+/* ---------- Report tables on small screens: cards, not scroll ----------
+   The desktop table (card shell + horizontal scroll) works fine on
+   tablet/desktop, but a 9-column table squeezed into a phone screen
+   is unreadable even with scroll. Below the breakpoint, each row
+   becomes its own card: label (from data-label) on the left, value
+   on the right. Relies on data-label attributes added to each <td>
+   in saleTotal.html - purely additive, no effect above this width. */
+
+@media only screen and (max-width: 700px) {
+  table {
+    display: block;
+    border: none;
+    box-shadow: none;
+    background: none;
+    overflow-x: visible;
+    white-space: normal;
+  }
+
+  table thead {
+    display: none;
+  }
+
+  table tbody {
+    display: block;
+  }
+
+  table tr {
+    display: block;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    padding: 0.9rem 1rem;
+    margin-bottom: 0.9rem;
+  }
+
+  table td {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 0.45rem 0;
+    border-bottom: 1px solid var(--color-border);
+    text-align: right;
+  }
+
+  table td:last-child {
+    border-bottom: none;
+    padding-top: 0.75rem;
+  }
+
+  table td[data-label]::before {
+    content: attr(data-label) ":";
+    font-weight: 600;
+    font-size: 0.88rem;
+    color: var(--color-text-muted);
+    text-align: left;
+    margin-right: 0.5rem;
+  }
+
+  table tr.month-divider td[data-label]::before {
+    display: block;
+    margin-right: 0;
+  }
+
+  table td[data-label="Bill No"],
+  table td[data-label="Total"] {
+    font-weight: 700;
+    font-size: 1.05rem;
+  }
+
+  table td[data-label="Modify"] {
+    justify-content: flex-end;
+  }
+
+  table td[data-label="Modify"]::before {
+    content: none;
+  }
+
+  table td[data-label="Modify"] .btn {
+    width: 100%;
+    text-align: center;
+  }
+
+  table tr.month-divider {
+    background: var(--color-primary-50);
+    border: none;
+    box-shadow: none;
+    border-radius: var(--radius-sm);
+    padding: 0.7rem 1rem;
+  }
+
+  table tr.month-divider td {
+    display: block;
+    border-bottom: none;
+    padding: 0;
+    text-align: left;
+    color: var(--color-primary-dark);
+  }
+
+  table tr.month-divider td:first-child {
+    margin-bottom: 0.2rem;
+  }
+}
