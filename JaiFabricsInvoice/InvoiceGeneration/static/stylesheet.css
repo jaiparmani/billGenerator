@@ -18,6 +18,8 @@
   --color-bg: #f4f6f9;
   --color-surface: #ffffff;
   --color-border: #e3e7ee;
+  --color-danger: #c0392b;
+  --color-danger-50: #fbeae8;
 
   --radius-sm: 8px;
   --radius-md: 12px;
@@ -322,6 +324,55 @@ input[type="button"]:active {
 
 .btn-info {
   background: var(--color-primary);
+}
+
+/* ---------- Record action buttons (Update / Delete) ----------
+   Used on the "confirm changes" step reached from Sale Total's
+   Modify button. Delete needs to read as clearly destructive -
+   outlined red, not filled, so it doesn't look like the default
+   safe action at a glance. */
+
+.action-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.action-buttons .btn {
+  margin-top: 0;
+}
+
+.btn-danger-outline {
+  background: var(--color-surface);
+  color: var(--color-danger);
+  border: 1.5px solid var(--color-danger);
+}
+
+.btn-danger-outline:hover {
+  background: var(--color-danger-50);
+  color: var(--color-danger);
+}
+
+/* Solid red: for the final, irreversible confirmation step (as
+   opposed to .btn-danger-outline, which marks "this leads somewhere
+   destructive" one step earlier, e.g. the Delete link on Actions.html).
+   Specificity note: input[type="submit"]/input[type="button"] (a type
+   selector + an attribute selector) actually out-specifies a bare
+   class like .btn-danger would be on its own - matching the element
+   type explicitly here, not just the class, so this reliably wins. */
+button.btn-danger,
+a.btn-danger,
+input[type="submit"].btn-danger,
+input[type="button"].btn-danger {
+  background: var(--color-danger);
+}
+
+button.btn-danger:hover,
+a.btn-danger:hover,
+input[type="submit"].btn-danger:hover,
+input[type="button"].btn-danger:hover {
+  background: #a53225;
 }
 
 /* ---------- Radio / checkbox choice lists ----------

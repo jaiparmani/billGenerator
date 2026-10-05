@@ -1,5 +1,12 @@
+{% extends 'base.html' %}
+{% block body_block %}
+<div class="page-header">
+  <h1>Edit bill</h1>
+  <p class="text-muted">Update the fields below and save.</p>
+</div>
 <form method="post">
 	{% csrf_token %}
 	{{ form.as_p }}
-	<input type="submit" value="Save">
+	<input type="submit" value="Save Changes">
 </form>
+{% endblock %}
